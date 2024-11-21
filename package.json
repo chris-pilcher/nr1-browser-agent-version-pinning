@@ -1,0 +1,25 @@
+{
+    "private": true,
+    "name": "nr1-browser-agent-version-pinning",
+    "version": "0.1.0",
+    "scripts": {
+        "start": "nr1 nerdpack:serve",
+        "test": "exit 0"
+    },
+    "devDependencies": {
+        "prettier": "3.3.3"
+    },
+    "nr1": {
+        "uuid": "f56d4d88-7368-4b19-a5c6-3e465c017558"
+    },
+    "dependencies": {
+        "prop-types": "15.7.2",
+        "react": "17.0.2",
+        "react-dom": "17.0.2"
+    },
+    "browserslist": [
+        "last 2 versions",
+        "not ie < 11",
+        "not dead"
+    ]
+}
