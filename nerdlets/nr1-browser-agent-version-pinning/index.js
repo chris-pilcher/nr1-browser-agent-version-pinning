@@ -18,6 +18,7 @@ import {
     Badge,
     Stack,
     StackItem,
+    Toast,
 } from 'nr1';
 
 const Nr1BrowserAgentVersionPinningNerdlet = () => {
@@ -122,13 +123,27 @@ const Nr1BrowserAgentVersionPinningNerdlet = () => {
             });
 
             if (response.errors) {
+                Toast.showToast({
+                    title: 'Update Failed',
+                    description: 'Failed to pin the selected version. Please try again.',
+                    type: Toast.TYPE.CRITICAL,
+                });
                 console.error('Error updating pinned version:', response.errors);
                 return;
             }
-
-            console.log(`Pinned version successfully updated to: ${selectedVersion}`);
+            Toast.showToast({
+                title: 'Version Updated',
+                description: `Pinned version successfully updated to: ${selectedVersion}`,
+                type: Toast.TYPE.NORMAL,
+            });
+            setCurrentVersion(selectedVersion);
         } catch (error) {
             console.error('Mutation failed:', error);
+            Toast.showToast({
+                title: 'Update Failed',
+                description: 'Failed to pin the selected version. Please try again.',
+                type: Toast.TYPE.CRITICAL,
+            });
         }
     };
 
