@@ -17,7 +17,7 @@ export const scrapeBrowserAgentData = async () => {
 
         const rows = table.querySelectorAll('tbody tr');
 
-        const data = Array.from(rows).map((row) => {
+        return Array.from(rows).map((row) => {
             const cells = row.querySelectorAll('td');
 
             return {
@@ -26,8 +26,6 @@ export const scrapeBrowserAgentData = async () => {
                 endDate: new Date(cells[2]?.textContent.trim()),
             };
         });
-
-        return data;
     } catch (error) {
         console.error('Error scraping data:', error);
         return [];
