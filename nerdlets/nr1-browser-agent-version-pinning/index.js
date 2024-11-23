@@ -13,6 +13,9 @@ import {
     Radio,
     Form,
     NerdletStateContext,
+    Badge,
+    Stack,
+    StackItem,
 } from 'nr1';
 
 const Nr1BrowserAgentVersionPinningNerdlet = () => {
@@ -51,11 +54,10 @@ const Nr1BrowserAgentVersionPinningNerdlet = () => {
 
         try {
             const response = await NerdGraphQuery.query({ query });
-            const pinnedVersion =
-                response?.data?.actor?.entity?.browserSettings
-                    ?.browserMonitoring?.pinnedVersion;
+            const pinnedVersion = response?.data?.actor?.entity?.browserSettings?.browserMonitoring?.pinnedVersion;
 
             setCurrentVersion(pinnedVersion || 'Not pinned');
+            setSelectedVersion(pinnedVersion);
         } catch (error) {
             console.error('Error fetching pinned version:', error);
             setCurrentVersion('Error fetching version');
@@ -66,21 +68,12 @@ const Nr1BrowserAgentVersionPinningNerdlet = () => {
 
     const fetchReleases = async () => {
         try {
-            const response = await fetch(
-                'https://api.github.com/repos/newrelic/newrelic-browser-agent/releases'
-            );
+            const response = await fetch('https://api.github.com/repos/newrelic/newrelic-browser-agent/releases');
             const data = await response.json();
 
             const formattedReleases = data.map((release) => ({
-                tagName: release.tag_name,
-                date: new Date(release.published_at).toLocaleDateString(
-                    'en-US',
-                    {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                    }
-                ),
+                tagName: release.tag_name.replace(/^v/, ''),
+                date: new Date(release.published_at).toISOString().split('T')[0],
             }));
 
             setReleases(formattedReleases);
@@ -141,7 +134,14 @@ const Nr1BrowserAgentVersionPinningNerdlet = () => {
                                             {releases.map((release) => (
                                                 <Radio
                                                     key={release.tagName}
-                                                    label={`${release.tagName} (${release.date})`}
+                                                    label={
+                                                        <Stack>
+                                                            <StackItem>{release.tagName} </StackItem>
+                                                            <StackItem>
+                                                                <Badge>{release.date}</Badge>
+                                                            </StackItem>
+                                                        </Stack>
+                                                    }
                                                     value={release.tagName}
                                                 />
                                             ))}
@@ -151,9 +151,7 @@ const Nr1BrowserAgentVersionPinningNerdlet = () => {
                                             type={Button.TYPE.PRIMARY}
                                             sizeType={Button.SIZE_TYPE.SMALL}
                                             onClick={handleUpdateVersion}
-                                            disabled={
-                                                !selectedVersion || loading
-                                            }
+                                            disabled={!selectedVersion || loading}
                                         >
                                             Update Version
                                         </Button>
