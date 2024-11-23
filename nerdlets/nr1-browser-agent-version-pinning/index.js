@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import {
     Button,
     NerdGraphQuery,
+    NerdGraphMutation,
+    ngql,
     InlineMessage,
     Card,
     CardHeader,
@@ -87,8 +89,47 @@ const Nr1BrowserAgentVersionPinningNerdlet = () => {
         }
     };
 
-    const handleUpdateVersion = () => {
-        console.log(`Updating version to: ${newVersion}`);
+    const handleUpdateVersion = async () => {
+        if (!browserAppGuid || !selectedVersion) {
+            console.error('Browser App GUID or selected version is missing.');
+            return;
+        }
+
+        try {
+            const response = await NerdGraphMutation.mutate({
+                mutation: ngql`
+                    mutation($guid: EntityGuid!, $version: String!) {
+                        agentApplicationSettingsUpdate(
+                            guid: $guid
+                            settings: { browserMonitoring: { pinnedVersion: $version } }
+                        ) {
+                            browserProperties {
+                                jsLoaderScript
+                            }
+                            browserSettings {
+                                browserMonitoring {
+                                    loader
+                                    pinnedVersion
+                                }
+                            }
+                        }
+                    }
+                `,
+                variables: {
+                    guid: browserAppGuid,
+                    version: selectedVersion,
+                },
+            });
+
+            if (response.errors) {
+                console.error('Error updating pinned version:', response.errors);
+                return;
+            }
+
+            console.log(`Pinned version successfully updated to: ${selectedVersion}`);
+        } catch (error) {
+            console.error('Mutation failed:', error);
+        }
     };
 
     return (
