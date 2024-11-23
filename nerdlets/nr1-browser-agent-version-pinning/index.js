@@ -68,6 +68,9 @@ const Nr1BrowserAgentVersionPinningNerdlet = () => {
 
     const fetchReleases = async () => {
         try {
+            //  TODO: Instead of using the GitHub API, query
+            //  https://docs.newrelic.com/docs/browser/browser-monitoring/getting-started/browser-agent-eol-policy/
+            //  to get version + start and EOL date. Make EOL in 3 months make it orange, expired make it red.
             const response = await fetch('https://api.github.com/repos/newrelic/newrelic-browser-agent/releases');
             const data = await response.json();
 
