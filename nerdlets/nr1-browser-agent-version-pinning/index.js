@@ -8,7 +8,6 @@ import {
     Card,
     CardHeader,
     CardBody,
-    HeadingText,
     Grid,
     GridItem,
     RadioGroup,
@@ -20,6 +19,7 @@ import {
     StackItem,
     Toast,
 } from 'nr1';
+import BrowserAgentTable from './BrowserAgentTable';
 
 const Nr1BrowserAgentVersionPinningNerdlet = () => {
     const [currentVersion, setCurrentVersion] = useState('');
@@ -217,6 +217,9 @@ const Nr1BrowserAgentVersionPinningNerdlet = () => {
                                     </Form>
                                 </CardBody>
                             </Card>
+                        </GridItem>
+                        <GridItem columnSpan={12}>
+                            <BrowserAgentTable />
                         </GridItem>
                     </Grid>
                 );
