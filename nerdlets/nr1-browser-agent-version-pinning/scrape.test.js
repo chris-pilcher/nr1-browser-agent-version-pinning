@@ -1,4 +1,4 @@
-import { scrapeBrowserAgentData } from './scrape';
+import scrapeBrowserAgentData from './scrape';
 
 describe('scrapeBrowserAgentData Integration Test', () => {
     it('should fetch and parse eol browser agent data form the webpage', async () => {
@@ -17,7 +17,7 @@ describe('scrapeBrowserAgentData Integration Test', () => {
             expect(item.endDate).toBeInstanceOf(Date);
 
             // Validate version format (e.g. v1.0.0)
-            const versionRegex = /^v\d+.\d+.\d+$/;
+            const versionRegex = /^\d+.\d+.\d+$/;
             expect(item.version).toMatch(versionRegex);
         });
     });

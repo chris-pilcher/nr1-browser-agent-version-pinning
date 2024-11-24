@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { scrapeBrowserAgentData } from './scrape';
-import { Table, TableHeader, TableHeaderCell, TableRow, TableRowCell } from 'nr1';
+import scrapeBrowserAgentData from './scrape';
+import { Badge, Table, TableHeader, TableHeaderCell, TableRow, TableRowCell } from 'nr1';
 
-const BrowserAgentTable = () => {
+const BrowserAgentTable = ({ currentPinnedVersion, onUpdateVersion }) => {
     const [data, setData] = useState([]);
+    const [selectedRow, setSelectedRow] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -15,19 +16,34 @@ const BrowserAgentTable = () => {
         fetchData();
     }, []);
 
+    const getActions = (itemVersion) => {
+        return [
+            {
+                label: 'Pin Version',
+                disabled: itemVersion === currentPinnedVersion,
+                onClick: (_, { item }) => {
+                    onUpdateVersion(item.version);
+                },
+            },
+            {
+                label: 'Remove Pinning',
+                type: TableRow.ACTION_TYPE.DESTRUCTIVE,
+                disabled: itemVersion !== currentPinnedVersion,
+                onClick: () => {
+                    onUpdateVersion(null);
+                },
+            },
+        ];
+    };
     return (
         <React.Fragment>
             <Table
                 items={data}
                 selectionType={Table.SELECTION_TYPE.SINGLE}
-                selected={({ index }) => index === this.state.selectedRow}
+                selected={({ index }) => index === selectedRow}
                 onSelect={(evt, { index }) => {
-                    this.setState((prevState) => {
-                        const { selectedRow } = prevState;
-
-                        // When the selected row is clicked, set value to `null`
-                        return { selectedRow: selectedRow === index ? null : index };
-                    });
+                    // When the selected row is clicked, set value to `null`
+                    setSelectedRow(selectedRow === index ? null : index);
                 }}
             >
                 <TableHeader>
@@ -37,8 +53,11 @@ const BrowserAgentTable = () => {
                 </TableHeader>
 
                 {({ item }) => (
-                    <TableRow>
-                        <TableRowCell>{item.version}</TableRowCell>
+                    <TableRow actions={getActions(item.version)}>
+                        <TableRowCell>
+                            {item.version}{' '}
+                            {currentPinnedVersion === item.version && <Badge type={Badge.TYPE.SUCCESS}>Current</Badge>}
+                        </TableRowCell>
                         <TableRowCell>
                             {item.startDate.toLocaleDateString('en-US', {
                                 month: 'short',

@@ -22,7 +22,7 @@ async function scrapeBrowserAgentData() {
         const cells = row.querySelectorAll('td');
 
         return {
-            version: cells[0]?.textContent.trim(),
+            version: cells[0]?.textContent.trim().replace(/^v/, ''),
             startDate: new Date(cells[1]?.textContent.trim()),
             endDate: new Date(cells[2]?.textContent.trim()),
         };

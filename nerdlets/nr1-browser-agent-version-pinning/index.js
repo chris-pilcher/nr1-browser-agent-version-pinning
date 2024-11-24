@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Button,
     NerdGraphQuery,
     NerdGraphMutation,
     ngql,
@@ -10,13 +9,7 @@ import {
     CardBody,
     Grid,
     GridItem,
-    RadioGroup,
-    Radio,
-    Form,
     NerdletStateContext,
-    Badge,
-    Stack,
-    StackItem,
     Toast,
 } from 'nr1';
 import BrowserAgentTable from './BrowserAgentTable';
@@ -24,9 +17,6 @@ import BrowserAgentTable from './BrowserAgentTable';
 // TODO: Consider the name of the component
 function Nr1BrowserAgentVersionPinningNerdlet() {
     const [currentVersion, setCurrentVersion] = useState('');
-    const [loading, setLoading] = useState(true);
-    const [releases, setReleases] = useState([]);
-    const [selectedVersion, setSelectedVersion] = useState('');
     const [browserAppGuid, setBrowserAppGuid] = useState('');
 
     useEffect(() => {
@@ -34,10 +24,6 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
             fetchPinnedVersion(browserAppGuid);
         }
     }, [browserAppGuid]);
-
-    useEffect(() => {
-        fetchReleases();
-    }, []);
 
     const fetchPinnedVersion = async (browserAppGuid) => {
         const query = `
@@ -60,50 +46,26 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
             const response = await NerdGraphQuery.query({ query });
             const pinnedVersion = response?.data?.actor?.entity?.browserSettings?.browserMonitoring?.pinnedVersion;
 
-            setCurrentVersion(pinnedVersion || 'Not pinned');
-            setSelectedVersion(pinnedVersion);
+            setCurrentVersion(pinnedVersion || 'None');
         } catch (error) {
             console.error('Error fetching pinned version:', error);
             setCurrentVersion('Error fetching version');
-        } finally {
-            setLoading(false);
         }
     };
 
-    const fetchReleases = async () => {
-        try {
-            //  TODO: Instead of using the GitHub API, query
-            //  https://docs.newrelic.com/docs/browser/browser-monitoring/getting-started/browser-agent-eol-policy/
-            //  to get version + start and EOL date. Make EOL in 3 months make it orange, expired make it red.
-            const response = await fetch('https://api.github.com/repos/newrelic/newrelic-browser-agent/releases');
-            const data = await response.json();
-
-            const formattedReleases = data.map((release) => ({
-                tagName: release.tag_name.replace(/^v/, ''),
-                date: new Date(release.published_at).toISOString().split('T')[0],
-            }));
-
-            setReleases(formattedReleases);
-        } catch (error) {
-            console.error('Error fetching releases:', error);
-        } finally {
-            // setDropdownLoading(false);
-        }
-    };
-
-    const handleUpdateVersion = async () => {
-        if (!browserAppGuid || !selectedVersion) {
-            console.error('Browser App GUID or selected version is missing.');
+    const handleUpdateVersion = async (pinnedVersion) => {
+        if (!browserAppGuid) {
+            console.error('Browser App GUID is missing.');
             return;
         }
 
         try {
             const response = await NerdGraphMutation.mutate({
                 mutation: ngql`
-                    mutation($guid: EntityGuid!, $version: String!) {
+                    mutation($guid: EntityGuid!, $pinnedVersion: String) {
                         agentApplicationSettingsUpdate(
                             guid: $guid
-                            settings: { browserMonitoring: { pinnedVersion: $version } }
+                            settings: { browserMonitoring: { pinnedVersion: $pinnedVersion } }
                         ) {
                             browserProperties {
                                 jsLoaderScript
@@ -119,30 +81,35 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                 `,
                 variables: {
                     guid: browserAppGuid,
-                    version: selectedVersion,
+                    pinnedVersion: pinnedVersion,
                 },
             });
 
             if (response.errors) {
+                console.error('Error updating pinned version:', response.errors);
                 Toast.showToast({
                     title: 'Update Failed',
-                    description: 'Failed to pin the selected version. Please try again.',
+                    description: 'Failed to update pinned version',
+                    actions: [{ label: 'Retry', onClick: () => handleUpdateVersion(pinnedVersion) }],
                     type: Toast.TYPE.CRITICAL,
                 });
-                console.error('Error updating pinned version:', response.errors);
                 return;
             }
+
             Toast.showToast({
-                title: 'Version Updated',
-                description: `Pinned version successfully updated to: ${selectedVersion}`,
+                title: 'Updated',
+                description: pinnedVersion ? `Pinned version updated to ${pinnedVersion}` : 'Pinning removed',
                 type: Toast.TYPE.NORMAL,
             });
-            setCurrentVersion(selectedVersion);
+
+            // Update the current version
+            setCurrentVersion(pinnedVersion || 'None');
         } catch (error) {
             console.error('Mutation failed:', error);
             Toast.showToast({
                 title: 'Update Failed',
-                description: 'Failed to pin the selected version. Please try again.',
+                description: 'Failed to update pinned version',
+                actions: [{ label: 'Retry', onClick: () => handleUpdateVersion(pinnedVersion) }],
                 type: Toast.TYPE.CRITICAL,
             });
         }
@@ -180,48 +147,10 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                             </Card>
                         </GridItem>
                         <GridItem columnSpan={12}>
-                            <Card>
-                                <CardHeader title={'Select a version to pin'} />
-                                <CardBody>
-                                    <Form>
-                                        <RadioGroup
-                                            value={selectedVersion}
-                                            onChange={(event, value) => {
-                                                setSelectedVersion(value);
-                                            }}
-                                        >
-                                            {/*TODO: Future task: Handle unpinning*/}
-                                            {releases.map((release) => (
-                                                <Radio
-                                                    key={release.tagName}
-                                                    label={
-                                                        <Stack>
-                                                            <StackItem>{release.tagName} </StackItem>
-                                                            <StackItem>
-                                                                <Badge>{release.date}</Badge>
-                                                            </StackItem>
-                                                        </Stack>
-                                                    }
-                                                    value={release.tagName}
-                                                />
-                                            ))}
-                                            {/*TODO: Handle specifying custom version*/}
-                                            <Radio label={'Custom version'} />
-                                        </RadioGroup>
-                                        <Button
-                                            type={Button.TYPE.PRIMARY}
-                                            sizeType={Button.SIZE_TYPE.SMALL}
-                                            onClick={handleUpdateVersion}
-                                            disabled={!selectedVersion || loading}
-                                        >
-                                            Update Version
-                                        </Button>
-                                    </Form>
-                                </CardBody>
-                            </Card>
-                        </GridItem>
-                        <GridItem columnSpan={12}>
-                            <BrowserAgentTable />
+                            <BrowserAgentTable
+                                currentPinnedVersion={currentVersion}
+                                onUpdateVersion={handleUpdateVersion}
+                            />
                         </GridItem>
                     </Grid>
                 );
