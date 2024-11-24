@@ -21,6 +21,7 @@ import {
 } from 'nr1';
 import BrowserAgentTable from './BrowserAgentTable';
 
+// TODO: Consider the name of the component
 const Nr1BrowserAgentVersionPinningNerdlet = () => {
     const [currentVersion, setCurrentVersion] = useState('');
     const [loading, setLoading] = useState(true);
@@ -189,7 +190,7 @@ const Nr1BrowserAgentVersionPinningNerdlet = () => {
                                                 setSelectedVersion(value);
                                             }}
                                         >
-                                            <Radio label="No Pinning (use latest)" />
+                                            {/*TODO: Future task: Handle unpinning*/}
                                             {releases.map((release) => (
                                                 <Radio
                                                     key={release.tagName}
@@ -204,6 +205,7 @@ const Nr1BrowserAgentVersionPinningNerdlet = () => {
                                                     value={release.tagName}
                                                 />
                                             ))}
+                                            {/*TODO: Handle specifying custom version*/}
                                             <Radio label={'Custom version'} />
                                         </RadioGroup>
                                         <Button

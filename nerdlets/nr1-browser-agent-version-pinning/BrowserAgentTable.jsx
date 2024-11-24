@@ -7,6 +7,7 @@ const BrowserAgentTable = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            // TODO: Handle errors
             const result = await scrapeBrowserAgentData();
             setData(result);
         };
