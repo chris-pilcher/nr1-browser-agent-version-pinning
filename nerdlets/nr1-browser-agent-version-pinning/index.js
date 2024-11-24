@@ -22,7 +22,7 @@ import {
 import BrowserAgentTable from './BrowserAgentTable';
 
 // TODO: Consider the name of the component
-const Nr1BrowserAgentVersionPinningNerdlet = () => {
+function Nr1BrowserAgentVersionPinningNerdlet() {
     const [currentVersion, setCurrentVersion] = useState('');
     const [loading, setLoading] = useState(true);
     const [releases, setReleases] = useState([]);
@@ -228,6 +228,6 @@ const Nr1BrowserAgentVersionPinningNerdlet = () => {
             }}
         </NerdletStateContext.Consumer>
     );
-};
+}
 
 export default Nr1BrowserAgentVersionPinningNerdlet;

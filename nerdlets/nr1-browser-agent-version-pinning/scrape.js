@@ -1,4 +1,4 @@
-export const scrapeBrowserAgentData = async () => {
+async function scrapeBrowserAgentData() {
     const URL = 'https://docs.newrelic.com/docs/browser/browser-monitoring/getting-started/browser-agent-eol-policy/';
 
     const response = await fetch(URL);
@@ -27,4 +27,6 @@ export const scrapeBrowserAgentData = async () => {
             endDate: new Date(cells[2]?.textContent.trim()),
         };
     });
-};
+}
+
+export default scrapeBrowserAgentData;

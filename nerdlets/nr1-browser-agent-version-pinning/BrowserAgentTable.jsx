@@ -16,9 +16,20 @@ const BrowserAgentTable = () => {
     }, []);
 
     return (
-        <div>
-            <h1>Browser Agent Data</h1>
-            <Table items={data} selectionType={Table.SELECTION_TYPE.NONE}>
+        <React.Fragment>
+            <Table
+                items={data}
+                selectionType={Table.SELECTION_TYPE.SINGLE}
+                selected={({ index }) => index === this.state.selectedRow}
+                onSelect={(evt, { index }) => {
+                    this.setState((prevState) => {
+                        const { selectedRow } = prevState;
+
+                        // When the selected row is clicked, set value to `null`
+                        return { selectedRow: selectedRow === index ? null : index };
+                    });
+                }}
+            >
                 <TableHeader>
                     <TableHeaderCell value={({ item }) => item.version}>Version</TableHeaderCell>
                     <TableHeaderCell value={({ item }) => item.startDate}>Start Date</TableHeaderCell>
@@ -45,7 +56,7 @@ const BrowserAgentTable = () => {
                     </TableRow>
                 )}
             </Table>
-        </div>
+        </React.Fragment>
     );
 };
 
