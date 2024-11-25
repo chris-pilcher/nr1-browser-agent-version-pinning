@@ -7,9 +7,6 @@ import {
     Card,
     CardHeader,
     CardBody,
-    CardSection,
-    CardSectionHeader,
-    CardSectionBody,
     Grid,
     GridItem,
     NerdletStateContext,
@@ -17,6 +14,8 @@ import {
     HeadingText,
     BlockText,
     Link,
+    Tabs,
+    TabsItem,
 } from 'nr1';
 import BrowserAgentTable from './BrowserAgentTable';
 
@@ -195,32 +194,29 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                                         </HeadingText>
                                     </CardHeader>
                                     <CardBody>
-                                        <CardSection collapsible>
-                                            <CardSectionHeader title="Supported Versions" />
-                                            <CardSectionBody>
-                                                <BlockText
-                                                    spacingType={[
-                                                        BlockText.SPACING_TYPE.MEDIUM,
-                                                        BlockText.SPACING_TYPE.NONE,
-                                                    ]}
-                                                >
+                                        <Tabs defaultValue="supported">
+                                            <TabsItem value="supported" label="Supported versions">
+                                                <BlockText spacingType={[BlockText.SPACING_TYPE.MEDIUM]}>
                                                     The versions in the table below are the{' '}
                                                     <Link to="https://docs.newrelic.com/docs/browser/browser-monitoring/getting-started/browser-agent-eol-policy/">
-                                                        currently supported versions
-                                                    </Link>{' '}
-                                                    of the New Relic browser agent.
+                                                        currently supported versions of the New Relic browser agent
+                                                    </Link>
                                                 </BlockText>
                                                 {/*TODO: What happens when I do not have permission to update pinning?*/}
                                                 <BrowserAgentTable
                                                     currentPinnedVersion={currentVersion}
                                                     onUpdateVersion={handleUpdateVersion}
                                                 />
-                                            </CardSectionBody>
-                                        </CardSection>
-                                        <CardSection collapsible defaultCollapsed>
-                                            <CardSectionHeader title="Manually Specify Version" />
-                                            <CardSectionBody>TODO: Support for other versions</CardSectionBody>
-                                        </CardSection>
+                                            </TabsItem>
+                                            <TabsItem value="custom" label="Custom version">
+                                                <BlockText spacingType={[BlockText.SPACING_TYPE.MEDIUM]}>
+                                                    Specify a version based on the release number from{' '}
+                                                    <Link to="https://github.com/newrelic/newrelic-browser-agent/releases">
+                                                        GitHub
+                                                    </Link>
+                                                </BlockText>
+                                            </TabsItem>
+                                        </Tabs>
                                     </CardBody>
                                 </Card>
                             </GridItem>
