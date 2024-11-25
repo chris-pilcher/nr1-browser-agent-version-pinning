@@ -39,8 +39,8 @@ const BrowserAgentTable = ({ currentPinnedVersion, onUpdateVersion }) => {
             <Table items={data}>
                 <TableHeader>
                     <TableHeaderCell value={({ item }) => item.version}>Version</TableHeaderCell>
-                    <TableHeaderCell value={({ item }) => item.startDate}>Start Date</TableHeaderCell>
-                    <TableHeaderCell value={({ item }) => item.endDate}>End Date</TableHeaderCell>
+                    <TableHeaderCell value={({ item }) => item.startDate}>Support Start Date</TableHeaderCell>
+                    <TableHeaderCell value={({ item }) => item.endDate}>Support End Date</TableHeaderCell>
                 </TableHeader>
 
                 {({ item }) => (

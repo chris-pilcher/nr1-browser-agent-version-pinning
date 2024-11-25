@@ -206,8 +206,9 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                                                 >
                                                     The versions in the table below are the{' '}
                                                     <Link to="https://docs.newrelic.com/docs/browser/browser-monitoring/getting-started/browser-agent-eol-policy/">
-                                                        currently supported versions of the New Relic browser agent
-                                                    </Link>
+                                                        currently supported versions
+                                                    </Link>{' '}
+                                                    of the New Relic browser agent.
                                                 </BlockText>
                                                 <BrowserAgentTable
                                                     currentPinnedVersion={currentVersion}
@@ -216,7 +217,7 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                                             </CardSectionBody>
                                         </CardSection>
                                         <CardSection collapsible defaultCollapsed>
-                                            <CardSectionHeader title="Other Version" />
+                                            <CardSectionHeader title="Manually Specify Version" />
                                             <CardSectionBody>TODO: Support for other versions</CardSectionBody>
                                         </CardSection>
                                     </CardBody>
