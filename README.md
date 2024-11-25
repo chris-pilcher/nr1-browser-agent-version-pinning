@@ -29,3 +29,4 @@ nr1 create
 ## Developer Notes
 
 - This is a good example app: https://github.com/newrelic/nr1-browser-analyzer/blob/f1b6d61dbf77f93e50e445dec01c6e37c6423c09/nerdlets/browser-analyzer-nerdlet/nr1.json
+- New Relic UI controls https://docs.newrelic.com/docs/new-relic-solutions/build-nr-ui/sdk-component/controls/AccountPicker/
