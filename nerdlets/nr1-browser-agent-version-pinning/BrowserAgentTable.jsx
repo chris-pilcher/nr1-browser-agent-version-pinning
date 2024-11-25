@@ -4,7 +4,6 @@ import { Badge, Table, TableHeader, TableHeaderCell, TableRow, TableRowCell } fr
 
 const BrowserAgentTable = ({ currentPinnedVersion, onUpdateVersion }) => {
     const [data, setData] = useState([]);
-    const [selectedRow, setSelectedRow] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,15 +36,7 @@ const BrowserAgentTable = ({ currentPinnedVersion, onUpdateVersion }) => {
     };
     return (
         <React.Fragment>
-            <Table
-                items={data}
-                selectionType={Table.SELECTION_TYPE.SINGLE}
-                selected={({ index }) => index === selectedRow}
-                onSelect={(evt, { index }) => {
-                    // When the selected row is clicked, set value to `null`
-                    setSelectedRow(selectedRow === index ? null : index);
-                }}
-            >
+            <Table items={data}>
                 <TableHeader>
                     <TableHeaderCell value={({ item }) => item.version}>Version</TableHeaderCell>
                     <TableHeaderCell value={({ item }) => item.startDate}>Start Date</TableHeaderCell>

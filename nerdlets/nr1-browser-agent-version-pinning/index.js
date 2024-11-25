@@ -7,10 +7,16 @@ import {
     Card,
     CardHeader,
     CardBody,
+    CardSection,
+    CardSectionHeader,
+    CardSectionBody,
     Grid,
     GridItem,
     NerdletStateContext,
     Toast,
+    HeadingText,
+    BlockText,
+    Link,
 } from 'nr1';
 import BrowserAgentTable from './BrowserAgentTable';
 
@@ -131,28 +137,93 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                 }
 
                 return (
-                    <Grid>
-                        <GridItem columnSpan={6}>
-                            <Card>
-                                <CardHeader
-                                    title="Browser Agent Version Pinning"
-                                    subtitle="Current Browser Agent Version"
-                                />
-                                <CardBody>
-                                    <InlineMessage
-                                        type={InlineMessage.TYPE.SUCCESS}
-                                        label={`Current Pinned Version: ${currentVersion}`}
-                                    />
-                                </CardBody>
-                            </Card>
-                        </GridItem>
-                        <GridItem columnSpan={12}>
-                            <BrowserAgentTable
-                                currentPinnedVersion={currentVersion}
-                                onUpdateVersion={handleUpdateVersion}
-                            />
-                        </GridItem>
-                    </Grid>
+                    <>
+                        <Grid>
+                            <GridItem columnSpan={12}>
+                                <Card>
+                                    <CardHeader>
+                                        <HeadingText type={HeadingText.TYPE.HEADING_4}>Version pinning</HeadingText>
+                                    </CardHeader>
+                                    <CardBody>
+                                        <BlockText
+                                            spacingType={[BlockText.SPACING_TYPE.MEDIUM, BlockText.SPACING_TYPE.NONE]}
+                                        >
+                                            Pin a specific version of the New Relic Browser agent to ensure platform
+                                            consistency.
+                                        </BlockText>
+                                        <BlockText
+                                            spacingType={[BlockText.SPACING_TYPE.MEDIUM, BlockText.SPACING_TYPE.NONE]}
+                                        >
+                                            This extension for New Relic One simplifies browser agent version pinning,
+                                            eliminating the need to use the NerdGraph API directly.
+                                        </BlockText>
+                                        <BlockText
+                                            spacingType={[BlockText.SPACING_TYPE.MEDIUM, BlockText.SPACING_TYPE.NONE]}
+                                        >
+                                            For more information, see the{' '}
+                                            <Link to="https://docs.newrelic.com/docs/apis/nerdgraph/examples/browser-monitoring-config-nerdgraph/#browser-agent-version-pinning">
+                                                Browser Agent Version Pinning documentation
+                                            </Link>
+                                        </BlockText>
+                                    </CardBody>
+                                </Card>
+                            </GridItem>
+                            <GridItem columnSpan={12}>
+                                <Card>
+                                    <CardHeader>
+                                        <HeadingText type={HeadingText.TYPE.HEADING_4}>Current pinning</HeadingText>
+                                    </CardHeader>
+                                    <CardBody>
+                                        <InlineMessage
+                                            type={InlineMessage.TYPE.SUCCESS}
+                                            label={`Current Pinned Version ${currentVersion}`}
+                                        />
+                                    </CardBody>
+                                </Card>
+                            </GridItem>
+                            <GridItem columnSpan={12}>
+                                <Card>
+                                    <CardHeader>
+                                        <HeadingText
+                                            type={HeadingText.TYPE.HEADING_4}
+                                            spacingType={[
+                                                HeadingText.SPACING_TYPE.MEDIUM,
+                                                HeadingText.SPACING_TYPE.NONE,
+                                            ]}
+                                        >
+                                            Manage pinning
+                                        </HeadingText>
+                                    </CardHeader>
+                                    <CardBody>
+                                        <CardSection collapsible>
+                                            <CardSectionHeader title="Supported Versions" />
+                                            <CardSectionBody>
+                                                <BlockText
+                                                    spacingType={[
+                                                        BlockText.SPACING_TYPE.MEDIUM,
+                                                        BlockText.SPACING_TYPE.NONE,
+                                                    ]}
+                                                >
+                                                    The versions in the table below are the{' '}
+                                                    <Link to="https://docs.newrelic.com/docs/browser/browser-monitoring/getting-started/browser-agent-eol-policy/">
+                                                        currently supported versions of the New Relic browser agent
+                                                    </Link>
+                                                </BlockText>
+                                                <BrowserAgentTable
+                                                    currentPinnedVersion={currentVersion}
+                                                    onUpdateVersion={handleUpdateVersion}
+                                                />
+                                            </CardSectionBody>
+                                        </CardSection>
+                                        <CardSection collapsible defaultCollapsed>
+                                            <CardSectionHeader title="Other Version" />
+                                            <CardSectionBody>TODO: Support for other versions</CardSectionBody>
+                                        </CardSection>
+                                    </CardBody>
+                                </Card>
+                            </GridItem>
+                        </Grid>
+                    </>
                 );
             }}
         </NerdletStateContext.Consumer>
