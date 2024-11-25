@@ -210,6 +210,7 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                                                     </Link>{' '}
                                                     of the New Relic browser agent.
                                                 </BlockText>
+                                                {/*TODO: What happens when I do not have permission to update pinning?*/}
                                                 <BrowserAgentTable
                                                     currentPinnedVersion={currentVersion}
                                                     onUpdateVersion={handleUpdateVersion}
