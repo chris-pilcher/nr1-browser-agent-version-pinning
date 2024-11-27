@@ -26,7 +26,6 @@ const BrowserAgentTable = ({ currentPinnedVersion, onUpdateVersion }) => {
             },
             {
                 label: 'Remove Pinning',
-                type: TableRow.ACTION_TYPE.DESTRUCTIVE,
                 disabled: itemVersion !== currentPinnedVersion,
                 onClick: () => {
                     onUpdateVersion(null);

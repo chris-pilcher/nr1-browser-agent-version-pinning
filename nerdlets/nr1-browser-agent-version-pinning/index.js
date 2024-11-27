@@ -7,6 +7,7 @@ import {
     Card,
     CardHeader,
     CardBody,
+    CardSection,
     Grid,
     GridItem,
     NerdletStateContext,
@@ -16,19 +17,26 @@ import {
     Link,
     Tabs,
     TabsItem,
+    Button,
 } from 'nr1';
 import BrowserAgentTable from './BrowserAgentTable';
+import CustomVersionForm from './CustomVersionForm';
+import ConfirmationModal from './ConfirmationModal';
 
 // TODO: Consider the name of the component
 function Nr1BrowserAgentVersionPinningNerdlet() {
     const [currentVersion, setCurrentVersion] = useState('');
+    const [newVersion, setNewVersion] = useState(null);
     const [browserAppGuid, setBrowserAppGuid] = useState('');
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
     useEffect(() => {
         if (browserAppGuid) {
             fetchPinnedVersion(browserAppGuid);
         }
     }, [browserAppGuid]);
+
+    const isVersionEmpty = !currentVersion;
 
     const fetchPinnedVersion = async (browserAppGuid) => {
         const query = `
@@ -51,7 +59,7 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
             const response = await NerdGraphQuery.query({ query });
             const pinnedVersion = response?.data?.actor?.entity?.browserSettings?.browserMonitoring?.pinnedVersion;
 
-            setCurrentVersion(pinnedVersion || 'None');
+            setCurrentVersion(pinnedVersion);
         } catch (error) {
             console.error('Error fetching pinned version:', error);
             setCurrentVersion('Error fetching version');
@@ -59,6 +67,11 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
     };
 
     const handleUpdateVersion = async (pinnedVersion) => {
+        setNewVersion(pinnedVersion);
+        setShowConfirmationModal(true);
+    };
+
+    const onUpdateVersion = async () => {
         if (!browserAppGuid) {
             console.error('Browser App GUID is missing.');
             return;
@@ -86,7 +99,7 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                 `,
                 variables: {
                     guid: browserAppGuid,
-                    pinnedVersion: pinnedVersion,
+                    pinnedVersion: newVersion,
                 },
             });
 
@@ -95,7 +108,7 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                 Toast.showToast({
                     title: 'Update Failed',
                     description: 'Failed to update pinned version',
-                    actions: [{ label: 'Retry', onClick: () => handleUpdateVersion(pinnedVersion) }],
+                    actions: [{ label: 'Retry', onClick: () => handleUpdateVersion(newVersion) }],
                     type: Toast.TYPE.CRITICAL,
                 });
                 return;
@@ -103,22 +116,25 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
 
             Toast.showToast({
                 title: 'Updated',
-                description: pinnedVersion ? `Pinned version updated to ${pinnedVersion}` : 'Pinning removed',
+                description: newVersion ? `Pinned version updated to ${newVersion}` : 'Pinning removed',
                 type: Toast.TYPE.NORMAL,
             });
 
             // Update the current version
-            setCurrentVersion(pinnedVersion || 'None');
+            setCurrentVersion(newVersion);
         } catch (error) {
             console.error('Mutation failed:', error);
             Toast.showToast({
                 title: 'Update Failed',
                 description: 'Failed to update pinned version',
-                actions: [{ label: 'Retry', onClick: () => handleUpdateVersion(pinnedVersion) }],
+                actions: [{ label: 'Retry', onClick: () => handleUpdateVersion(newVersion) }],
                 type: Toast.TYPE.CRITICAL,
             });
+        } finally {
+            setShowConfirmationModal(false);
         }
     };
+    // TODO: Make sure modal stays open when the user clicks delete. Show spinner while updating
 
     return (
         <NerdletStateContext.Consumer>
@@ -137,6 +153,13 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
 
                 return (
                     <>
+                        <ConfirmationModal
+                            showModal={showConfirmationModal}
+                            currentVersion={currentVersion}
+                            newVersion={newVersion}
+                            onConfirm={async () => await onUpdateVersion()}
+                            onCancel={() => setShowConfirmationModal(false)}
+                        />
                         <Grid>
                             <GridItem columnSpan={12}>
                                 <Card>
@@ -159,7 +182,7 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                                         <BlockText
                                             spacingType={[BlockText.SPACING_TYPE.MEDIUM, BlockText.SPACING_TYPE.NONE]}
                                         >
-                                            For more information, see the{' '}
+                                            For more information, see the {/*TODO: Consts file for links*/}
                                             <Link to="https://docs.newrelic.com/docs/apis/nerdgraph/examples/browser-monitoring-config-nerdgraph/#browser-agent-version-pinning">
                                                 Browser Agent Version Pinning documentation
                                             </Link>
@@ -170,13 +193,29 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                             <GridItem columnSpan={12}>
                                 <Card>
                                     <CardHeader>
-                                        <HeadingText type={HeadingText.TYPE.HEADING_4}>Current pinning</HeadingText>
+                                        <HeadingText type={HeadingText.TYPE.HEADING_4}>
+                                            Current pinning status
+                                        </HeadingText>
                                     </CardHeader>
                                     <CardBody>
-                                        <InlineMessage
-                                            type={InlineMessage.TYPE.SUCCESS}
-                                            label={`Current Pinned Version ${currentVersion}`}
-                                        />
+                                        <CardSection>
+                                            {isVersionEmpty ? (
+                                                <InlineMessage
+                                                    type={InlineMessage.TYPE.INFO}
+                                                    label={`No version pinned`}
+                                                />
+                                            ) : (
+                                                <InlineMessage
+                                                    type={InlineMessage.TYPE.SUCCESS}
+                                                    label={`Pinned version: ${currentVersion}`}
+                                                />
+                                            )}
+                                        </CardSection>
+                                        <CardSection>
+                                            <Button disabled={isVersionEmpty} onClick={() => handleUpdateVersion(null)}>
+                                                Remove Pinning
+                                            </Button>
+                                        </CardSection>
                                     </CardBody>
                                 </Card>
                             </GridItem>
@@ -215,6 +254,10 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                                                         GitHub
                                                     </Link>
                                                 </BlockText>
+                                                <CustomVersionForm
+                                                    currentPinnedVersion={currentVersion}
+                                                    onUpdateVersion={handleUpdateVersion}
+                                                />
                                             </TabsItem>
                                         </Tabs>
                                     </CardBody>
