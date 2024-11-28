@@ -30,3 +30,17 @@ nr1 create
 
 - This is a good example app: https://github.com/newrelic/nr1-browser-analyzer/blob/f1b6d61dbf77f93e50e445dec01c6e37c6423c09/nerdlets/browser-analyzer-nerdlet/nr1.json
 - New Relic UI controls https://docs.newrelic.com/docs/new-relic-solutions/build-nr-ui/sdk-component/controls/AccountPicker/
+
+## Publishing
+
+https://docs.newrelic.com/docs/new-relic-solutions/new-relic-one/build-nr-apps/publish/
+
+To add your app:
+- npm run publish
+- Go to https://one.newrelic.com/
+- Integrations & Agents
+- All
+- Search for [nr1-browser-agent-version-pinning](https://onenr.io/0PwJ3LVb7R7)
+- Add "Nr1BrowserAgentVersionPinning" to your account
+
+TODO: Fill in details for this page "Details" / "Whats new" / "What's New" (See Notes)
