@@ -35,4 +35,4 @@ jobs:
           github_token: ${{ secrets.GH_TOKEN }}
           publish_dir: ./gh-pages-content
           publish_branch: gh-pages
-          commit_message: "Update browser-agent-eol-policy.json ($(date --iso-8601=seconds))"
+          commit_message: "Update browser-agent-eol-policy.json"
