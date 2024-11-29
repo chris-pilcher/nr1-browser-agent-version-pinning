@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           sparse-checkout: |
-            scripts/browser-agent
+            gha-scripts/browser-agent
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -26,7 +26,7 @@ jobs:
         run: npm install cheerio
 
       - name: Run Script
-        run: node scripts/browser-agent/scrape.mjs
+        run: node gha-scripts/browser-agent/scrape.mjs
 
       - name: Display Output
         run: cat browser-agent-eol-policy.json
