@@ -1,8 +1,9 @@
 name: Scrape Browser Agent Data
 
 on:
+  # Run at 6:00 AM (UTC) and on manual trigger
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 jobs:
