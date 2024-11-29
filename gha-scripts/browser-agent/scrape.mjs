@@ -24,7 +24,7 @@ async function scrapeBrowserAgentData() {
     });
 
     if (data.length === 0 || data[0].version || !data[0].startDate || !data[0].endDate) {
-        throw new Error('Invalid data detected.');
+        throw new Error(`Invalid data detected. Data:\n\n${JSON.stringify(data)}`);
     }
 
     await fs.writeFile('browser-agent-eol-policy.json', JSON.stringify(data, null, 2), 'utf8');

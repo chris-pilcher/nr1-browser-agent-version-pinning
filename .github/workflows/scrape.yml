@@ -17,13 +17,16 @@ jobs:
           sparse-checkout: |
             gha-scripts/browser-agent
 
+      - name: Display All Files
+        run: ls -R
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
       - name: Install Dependencies
-        run: npm install cheerio
+        run: npm install cheerio@1.0.0
 
       - name: Run Script
         run: node gha-scripts/browser-agent/scrape.mjs
