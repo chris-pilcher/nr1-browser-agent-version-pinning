@@ -23,7 +23,7 @@ async function scrapeBrowserAgentData() {
         });
     });
 
-    if (data.length === 0 || !data[0].version || !data[0].startDate || !data[0].endDate) {
+    if (data.length === 0 || data[0].version || !data[0].startDate || !data[0].endDate) {
         throw new Error('Invalid data detected.');
     }
 
