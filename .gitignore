@@ -1,0 +1,5 @@
+# Ignore everything
+*
+
+# Except browser-agent-eol-policy.json
+!browser-agent-eol-policy.json
