@@ -26,7 +26,7 @@ jobs:
         run: npm install cheerio
 
       - name: Run Script
-        run: node scripts/browser-agent/scrape.js
+        run: node scripts/browser-agent/scrape.mjs
 
       - name: Display Output
         run: cat scripts/browser-agent/output.json
