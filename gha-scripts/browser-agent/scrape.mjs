@@ -28,7 +28,9 @@ async function scrapeBrowserAgentData() {
         throw new Error(`Invalid data detected. Data:\n${JSON.stringify(data, null, space)}`);
     }
 
-    const fileName = 'public/browser-agent-eol-policy.json';
+    const directory = 'gh-pages-content';
+    const fileName = `${directory}/browser-agent-eol-policy.json`;
+    await fs.mkdir(directory);
     await fs.writeFile(fileName, JSON.stringify(data, null, 2), 'utf8');
     console.log(`File written: ${fileName}`);
 }
