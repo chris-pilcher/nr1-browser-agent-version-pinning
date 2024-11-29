@@ -8,14 +8,15 @@ on:
 
 jobs:
   scrape:
+    name: Scrape Browser Agent EOL Data
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Scripts Folder
         uses: actions/checkout@v4
         with:
-          sparse-checkout: |
-            gha-scripts/browser-agent
+          fetch-depth: 0
+          sparse-checkout: gha-scripts/browser-agent
 
       - name: Display All Files
         run: ls -R
