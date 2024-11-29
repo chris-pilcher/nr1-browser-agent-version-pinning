@@ -1,0 +1,31 @@
+name: Scrape Browser Agent Data
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Scripts Folder
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            scripts/browser-agent
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install cheerio
+
+      - name: Run Script
+        run: node scripts/browser-agent/scrape.js
+
+      - name: Display Output
+        run: cat scripts/browser-agent/output.json
