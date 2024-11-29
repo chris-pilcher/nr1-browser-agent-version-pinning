@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import scrapeBrowserAgentData from './scrape';
 import { Badge, Table, TableHeader, TableHeaderCell, TableRow, TableRowCell } from 'nr1';
 
 const BrowserAgentTable = ({ currentPinnedVersion, onUpdateVersion }) => {
@@ -8,8 +7,11 @@ const BrowserAgentTable = ({ currentPinnedVersion, onUpdateVersion }) => {
     useEffect(() => {
         const fetchData = async () => {
             // TODO: Handle errors
-            const result = await scrapeBrowserAgentData();
-            setData(result);
+            let scrapedEolData =
+                'https://chris-pilcher.github.io/nr1-browser-agent-version-pinning/browser-agent-eol-policy.json';
+            const result = await fetch(scrapedEolData);
+            const resultJson = await result.json();
+            setData(resultJson);
         };
 
         fetchData();
@@ -49,14 +51,14 @@ const BrowserAgentTable = ({ currentPinnedVersion, onUpdateVersion }) => {
                             {currentPinnedVersion === item.version && <Badge type={Badge.TYPE.SUCCESS}>Current</Badge>}
                         </TableRowCell>
                         <TableRowCell>
-                            {item.startDate.toLocaleDateString('en-US', {
+                            {new Date(item.startDate).toLocaleDateString('en-US', {
                                 month: 'short',
                                 day: 'numeric',
                                 year: 'numeric',
                             })}
                         </TableRowCell>
                         <TableRowCell>
-                            {item.endDate.toLocaleDateString('en-US', {
+                            {new Date(item.endDate).toLocaleDateString('en-US', {
                                 month: 'short',
                                 day: 'numeric',
                                 year: 'numeric',
