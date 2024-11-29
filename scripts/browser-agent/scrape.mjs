@@ -23,7 +23,7 @@ async function scrapeBrowserAgentData() {
         });
     });
 
-    if (data.length === 0 || !data[0].version || !data[0].startDate || !data[0].endDate) {
+    if (data.length === 0 || data[0].version || !data[0].startDate || !data[0].endDate) {
         throw new Error('Invalid data detected.');
     }
 
@@ -31,6 +31,4 @@ async function scrapeBrowserAgentData() {
     console.log('File written: browser-agent-eol-policy.json');
 }
 
-scrapeBrowserAgentData().catch((error) => {
-    console.error('Error:', error.message);
-});
+scrapeBrowserAgentData().then(() => console.log('Successfully scraped browser agent data.'));
