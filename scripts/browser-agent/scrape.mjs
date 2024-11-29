@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
 async function scrapeBrowserAgentData() {
     const URL = 'https://docs.newrelic.com/docs/browser/browser-monitoring/getting-started/browser-agent-eol-policy/';
@@ -22,6 +22,10 @@ async function scrapeBrowserAgentData() {
             endDate: new Date($(cells[2]).text().trim()).toISOString(),
         });
     });
+
+    if (data.length === 0 || !data[0].version || !data[0].startDate || !data[0].endDate) {
+        throw new Error('Invalid data detected.');
+    }
 
     await fs.writeFile('browser-agent-eol-policy.json', JSON.stringify(data, null, 2), 'utf8');
     console.log('File written: browser-agent-eol-policy.json');
