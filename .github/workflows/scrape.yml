@@ -15,11 +15,7 @@ jobs:
       - name: Checkout Scripts Folder
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
           sparse-checkout: gha-scripts/browser-agent
-
-      - name: Display All Files
-        run: ls -R
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
