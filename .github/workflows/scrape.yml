@@ -27,24 +27,12 @@ jobs:
         run: node gha-scripts/browser-agent/scrape.mjs
 
       - name: Display Scraped Data
-        run: cat browser-agent-eol-policy.json
+        run: cat public/browser-agent-eol-policy.json
 
       - name: Push Scraped Data to GitHub Pages
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          git stash push -- "browser-agent-eol-policy.json"
-          git reset --hard
-          git clean -fd
-
-          git fetch origin gh-pages
-          git checkout gh-pages
-
-          git stash pop
-          git add browser-agent-eol-policy.json
-          git commit -m "Update browser-agent-eol-policy.json ($(date --iso-8601=seconds))"
-
-          git push origin gh-pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
+          commit_message: "Update browser-agent-eol-policy.json ($(date --iso-8601=seconds))"
