@@ -19,7 +19,6 @@
     "uuid": "f56d4d88-7368-4b19-a5c6-3e465c017558"
   },
   "dependencies": {
-    "jest-environment-jsdom": "^29.7.0",
     "prop-types": "15.7.2",
     "react": "17.0.2",
     "react-dom": "17.0.2"
