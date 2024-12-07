@@ -120,21 +120,19 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                 type: Toast.TYPE.NORMAL,
             });
 
-            // Update the current version
+            setShowConfirmationModal(false);
             setCurrentVersion(newVersion);
         } catch (error) {
             console.error('Mutation failed:', error);
+            setShowConfirmationModal(false);
             Toast.showToast({
                 title: 'Update Failed',
                 description: 'Failed to update pinned version',
                 actions: [{ label: 'Retry', onClick: () => handleUpdateVersion(newVersion) }],
                 type: Toast.TYPE.CRITICAL,
             });
-        } finally {
-            setShowConfirmationModal(false);
         }
     };
-    // TODO: Make sure modal stays open when the user clicks delete. Show spinner while updating
 
     return (
         <NerdletStateContext.Consumer>
@@ -157,7 +155,7 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                             showModal={showConfirmationModal}
                             currentVersion={currentVersion}
                             newVersion={newVersion}
-                            onConfirm={async () => await onUpdateVersion()}
+                            onConfirm={onUpdateVersion}
                             onCancel={() => setShowConfirmationModal(false)}
                         />
                         <Grid>

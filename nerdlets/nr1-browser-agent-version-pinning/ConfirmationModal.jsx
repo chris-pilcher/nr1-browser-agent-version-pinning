@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BlockText, Button, HeadingText, Modal, Stack, StackItem } from 'nr1';
 
 function ConfirmationModal({ showModal, currentVersion, newVersion, onCancel, onConfirm }) {
@@ -6,6 +6,7 @@ function ConfirmationModal({ showModal, currentVersion, newVersion, onCancel, on
     const titleText = isRemovingPinning ? 'Remove Pinning' : 'Update Pinning';
     const messageText = createMessageText(isRemovingPinning, currentVersion, newVersion);
     const actionText = isRemovingPinning ? 'Remove Pinning' : `Pin to ${newVersion}`;
+    const [isUpdating, setIsUpdating] = useState(false);
     // TODO: Add a loading state. When network is slow the text can sometimes change as state is updated.
     return (
         <Modal hidden={!showModal} onClose={onCancel}>
@@ -13,7 +14,6 @@ function ConfirmationModal({ showModal, currentVersion, newVersion, onCancel, on
             <BlockText spacingType={[BlockText.SPACING_TYPE.EXTRA_LARGE, BlockText.SPACING_TYPE.OMIT]}>
                 {messageText}
             </BlockText>
-            {/*TODO: Align right*/}
             <Stack>
                 <StackItem>
                     <Button onClick={onCancel}>Cancel</Button>
@@ -21,7 +21,12 @@ function ConfirmationModal({ showModal, currentVersion, newVersion, onCancel, on
                 <StackItem>
                     <Button
                         type={isRemovingPinning ? Button.TYPE.DESTRUCTIVE : Button.TYPE.PRIMARY}
-                        onClick={onConfirm}
+                        onClick={async () => {
+                            setIsUpdating(true);
+                            await onConfirm();
+                            setIsUpdating(false);
+                        }}
+                        loading={isUpdating}
                     >
                         {actionText}
                     </Button>
