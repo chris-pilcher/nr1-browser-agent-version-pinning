@@ -17,9 +17,7 @@ import {
     TabsItem,
     Toast,
 } from 'nr1';
-import BrowserAgentTable from './components/BrowserAgentTable/BrowserAgentTable';
-import CustomVersionForm from './components/CustomVersionForm/CustomVersionForm';
-import ConfirmationModal from './components/ConfirmationModal/ConfirmationModal';
+import { BrowserAgentTable, CustomVersionForm, ConfirmationModal } from './components';
 import { UPDATE_PINNED_VERSION } from './graphql/mutations';
 import { usePinnedVersion } from './hooks/usePinnedVersion';
 
