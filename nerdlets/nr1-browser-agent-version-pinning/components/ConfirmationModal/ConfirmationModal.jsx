@@ -7,7 +7,6 @@ function ConfirmationModal({ showModal, currentVersion, newVersion, onCancel, on
     const messageText = createMessageText(isRemovingPinning, currentVersion, newVersion);
     const actionText = isRemovingPinning ? 'Remove Pinning' : `Pin to ${newVersion}`;
     const [isUpdating, setIsUpdating] = useState(false);
-    // TODO: Add a loading state. When network is slow the text can sometimes change as state is updated.
     return (
         <Modal hidden={!showModal} onClose={onCancel}>
             <HeadingText type={HeadingText.TYPE.HEADING_3}>{titleText}</HeadingText>
