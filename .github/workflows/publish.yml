@@ -24,7 +24,7 @@ jobs:
                 run: nr1 --version
 
             -   name: Publish
-                run: nr1 nerdpack:publish --tag=DEV
+                run: npm publish
                 env:
                     NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
 
