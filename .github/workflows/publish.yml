@@ -21,7 +21,7 @@ jobs:
             -   name: NR1 CLI - Add Profile
                 run: |
                     echo "Configuring NR1 CLI in ${{ vars.NEW_RELIC_REGION }} region"
-                    nr1 profiles:add --name default --api-key ${{ secrets.NEW_RELIC_API_KEY }} --region ${{ vars.NEW_RELIC_REGION }}
+                    nr1 profiles:add --name test-env --api-key ${{ secrets.NEW_RELIC_API_KEY }} --region ${{ vars.NEW_RELIC_REGION }}
 
             -   name: NR1 CLI - Display Version
                 run: nr1 --version
