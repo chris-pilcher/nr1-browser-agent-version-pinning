@@ -36,5 +36,6 @@
     "presets": [
       "@babel/preset-env"
     ]
-  }
+  },
+  "version": "1.2.3"
 }
