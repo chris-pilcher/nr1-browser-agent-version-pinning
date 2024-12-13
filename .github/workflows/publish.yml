@@ -17,13 +17,14 @@ jobs:
         steps:
             -   name: Checkout Code
                 uses: actions/checkout@v4
-                persist-credentials: false
+                with:
+                    persist-credentials: false
 
             -   name: NR1 CLI - Install
                 run: curl -s https://cli.nr-ext.net/installer.sh | sudo bash
 
             -   name: NR1 CLI - Add Profile
-                run: nr1 profiles:add --name test-env --api-key ${{ secrets.NEW_RELIC_API_KEY }} --region ${{ vars.NEW_RELIC_REGION }}
+                run: nr1 profiles:add --name test-env --api-key ${{ secrets.NEW_RELIC_API_KEY }} --region ${NEW_RELIC_REGION}
 
             -   name: NR1 CLI - Display Version
                 run: nr1 --version
