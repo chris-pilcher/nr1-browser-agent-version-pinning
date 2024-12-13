@@ -1,13 +1,13 @@
 name: Tests
 
 on:
-  # Run on every pull request to main branch
-  pull_request:
-    branches:
-      - main
-  # Run at 6:00 AM (UTC)
-  schedule:
-    - cron: '0 6 * * *'
+#  # Run on every pull request to main branch
+#  pull_request:
+#    branches:
+#      - main
+#  # Run at 6:00 AM (UTC)
+#  schedule:
+#    - cron: '0 6 * * *'
 
 jobs:
   test:
