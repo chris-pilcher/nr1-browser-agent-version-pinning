@@ -10,12 +10,18 @@ jobs:
     publish:
         name: Publish Nerdpack
         runs-on: ubuntu-latest
-        container:
-            image: newrelic/cli:v0.97
 
         steps:
             -   name: Checkout Code
                 uses: actions/checkout@v4
+
+            -   name: Install NR1 CLI
+                run: |
+                    curl -s https://cli.nr-ext.net/installer.sh | sudo bash
+                    nr1 profiles:add --name default --api-key ${{ secrets.NEW_RELIC_API_KEY }} --region us
+
+            -   name: Get Version
+                run: nr1 --version
 
             -   name: Publish
                 run: nr1 nerdpack:publish --tag=DEV
