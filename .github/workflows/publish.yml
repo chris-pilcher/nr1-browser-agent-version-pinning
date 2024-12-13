@@ -18,7 +18,7 @@ jobs:
             -   name: Install NR1 CLI
                 run: |
                     curl -s https://cli.nr-ext.net/installer.sh | sudo bash
-                    nr1 profiles:add --name default --api-key ${{ secrets.NEW_RELIC_API_KEY }} --region ${{ variables.NEW_RELIC_REGION }}
+                    nr1 profiles:add --name default --api-key ${{ secrets.NEW_RELIC_API_KEY }} --region ${{ vars.NEW_RELIC_REGION }}
 
             -   name: NR1 CLI Version
                 run: nr1 --version
