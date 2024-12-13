@@ -8,6 +8,7 @@ on:
 
 jobs:
     publish:
+        name: Publish Nerdpack
         runs-on: ubuntu-latest
         container:
             image: newrelic/cli:v0.97
@@ -16,13 +17,8 @@ jobs:
             -   name: Checkout Code
                 uses: actions/checkout@v4
 
-            -   name: Set up Node.js
-                uses: actions/setup-node@v4
-                with:
-                    node-version: 22
-
-            -   name: Publish Browser Agent EOL Data
-                run: npm publish
+            -   name: Publish
+                run: nr1 nerdpack:publish --tag=DEV
                 env:
-                    NPM_TOKEN: ${{ secrets.NEW_RELIC_API_KEY }}
+                    NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
 
