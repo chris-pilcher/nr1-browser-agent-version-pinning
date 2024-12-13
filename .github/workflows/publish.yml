@@ -1,10 +1,9 @@
 name: Publish
 
 on:
-    workflow_dispatch:
-    pull_request:
-        branches:
-            - main
+    release:
+        types:
+            - created
 
 permissions:
     contents: read
@@ -33,4 +32,4 @@ jobs:
                 run: nr1 --version
 
             -   name: Publish
-                run: npm run publish
+                run: nr1 nerdpack:publish --tag=DEV

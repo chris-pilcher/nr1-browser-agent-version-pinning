@@ -5,7 +5,6 @@
   "scripts": {
     "start": "nr1 nerdpack:serve",
     "test": "jest",
-    "publish": "nr1 nerdpack:publish --tag=DEV",
     "info": "nr1 nerdpack:info"
   },
   "devDependencies": {
