@@ -25,7 +25,7 @@ jobs:
 
             -   name: NR1 CLI - Add Profile
                 run: nr1 profiles:add --name test-env --api-key ${NEW_RELIC_API_KEY} --region ${NEW_RELIC_REGION}
-                with:
+                env:
                     NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
                     NEW_RELIC_REGION: ${{ var.NEW_RELIC_REGION }}
 
