@@ -1,0 +1,19 @@
+name: Publish
+
+on:
+    workflow_dispatch:
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        image: newrelic/cli:v0.97
+
+        steps:
+            -   name: Checkout Code
+                uses: actions/checkout@v4
+
+            -   name: Publish Browser Agent EOL Data
+                run: npm publish
+                env:
+                    NPM_TOKEN: ${{ secrets.NEW_RELIC_API_KEY }}
+
