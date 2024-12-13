@@ -17,6 +17,7 @@ jobs:
         steps:
             -   name: Checkout Code
                 uses: actions/checkout@v4
+                persist-credentials: false
 
             -   name: NR1 CLI - Install
                 run: curl -s https://cli.nr-ext.net/installer.sh | sudo bash

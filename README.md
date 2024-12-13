@@ -44,3 +44,8 @@ To add your app:
 - Add "Nr1BrowserAgentVersionPinning" to your account
 
 TODO: Fill in details for this page "Details" / "Whats new" / "What's New" (See Notes)
+
+## Dev Tasks
+
+- [ ] Check security for GitHub Actions. Based on [ThePrimeTime: Popular Python Package Becomes Crypto Miner](https://www.youtube.com/watch?v=MdbhLX67jDY) 
+
