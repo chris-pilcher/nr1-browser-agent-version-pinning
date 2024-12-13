@@ -9,7 +9,8 @@ on:
 jobs:
     publish:
         runs-on: ubuntu-latest
-        image: newrelic/cli:v0.97
+        container:
+            image: newrelic/cli:v0.97
 
         steps:
             -   name: Checkout Code
