@@ -34,6 +34,3 @@ API-Key: {{apiKey}}
     "browserMonitorGuid": "{{browserMonitorGuid}}"
   }
 }
-
-### Fetch EOL Policy
-GET https://docs.newrelic.com/docs/browser/browser-monitoring/getting-started/browser-agent-eol-policy/
