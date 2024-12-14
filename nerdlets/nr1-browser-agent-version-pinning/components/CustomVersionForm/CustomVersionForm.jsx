@@ -9,7 +9,7 @@ function CustomVersionForm({ currentPinnedVersion, onUpdateVersion }) {
     const versionRegex = /^v?\d+\.\d+\.\d+$/;
 
     const handleInputChange = (event) => {
-        const inputValue = event.target.value;
+        const inputValue = event.target.value.trim();
         setInvalid(!versionRegex.test(inputValue));
         setVersion(inputValue);
     };
@@ -37,7 +37,7 @@ function CustomVersionForm({ currentPinnedVersion, onUpdateVersion }) {
                     onChange={handleInputChange}
                     invalid={invalid}
                 />
-                {/*NR1 didn't let me specify type="submit" so I had to use onClick*/}
+                {/* NR1 didn't let me specify type="submit" so I had to use onClick */}
                 <Button type={Button.TYPE.PRIMARY} disabled={invalid || !version} onClick={handleSubmit}>
                     Pin Version
                 </Button>
