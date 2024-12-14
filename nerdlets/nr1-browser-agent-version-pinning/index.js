@@ -157,12 +157,6 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                                     />
                                 </TabsItem>
                                 <TabsItem value="custom" label="Custom version">
-                                    <BlockText spacingType={[BlockText.SPACING_TYPE.MEDIUM]}>
-                                        Specify a version based on the release number from{' '}
-                                        <Link to="https://github.com/newrelic/newrelic-browser-agent/releases">
-                                            GitHub
-                                        </Link>
-                                    </BlockText>
                                     <CustomVersionForm
                                         currentPinnedVersion={pinnedVersion}
                                         onUpdateVersion={handleUpdateVersion}
