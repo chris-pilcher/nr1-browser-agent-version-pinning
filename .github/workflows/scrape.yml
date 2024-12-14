@@ -1,38 +1,40 @@
 name: Scrape Browser Agent Data
 
 on:
-  # Run at 6:00 AM (UTC) and on manual trigger
-  schedule:
-    - cron: '0 6 * * *'
-  workflow_dispatch:
+    # Run at 6:00 AM (UTC) and on manual trigger
+    schedule:
+        -   cron: '0 6 * * *'
+    workflow_dispatch:
+
+permissions:
+    contents: read
 
 jobs:
-  scrape:
-    name: Scrape Browser Agent EOL Data
-    runs-on: ubuntu-latest
+    scrape:
+        name: Scrape Browser Agent EOL Data
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+        steps:
+            -   name: Checkout Code
+                uses: actions/checkout@v4
+                with:
+                    persist-credentials: false
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+            -   name: Setup Node.js
+                uses: actions/setup-node@v4
+                with:
+                    node-version: 22
 
-      - name: Install Dependencies
-        run: npm install cheerio@1.0.0
+            -   name: Install Dependencies
+                run: npm install cheerio@1.0.0
 
-      - name: Scrape Browser Agent EOL Data
-        run: node gha-scripts/browser-agent/scrape.mjs
+            -   name: Scrape Browser Agent EOL Data
+                run: node gha-scripts/browser-agent/scrape.mjs
 
-      - name: Display Scraped Data
-        run: cat gh-pages-content/browser-agent-eol-policy.json
-
-      - name: Push Scraped Data to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GH_TOKEN }}
-          publish_dir: ./gh-pages-content
-          publish_branch: gh-pages
-          commit_message: "Update browser-agent-eol-policy.json"
+            -   name: Push Scraped Data to GitHub Pages
+                uses: peaceiris/actions-gh-pages@v4
+                with:
+                    github_token: ${{ secrets.GH_TOKEN }}
+                    publish_dir: ./gh-pages-content
+                    publish_branch: gh-pages
+                    commit_message: "Update browser-agent-eol-policy.json"
