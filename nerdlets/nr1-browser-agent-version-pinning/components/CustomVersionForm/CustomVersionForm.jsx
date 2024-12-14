@@ -19,7 +19,8 @@ function CustomVersionForm({ currentPinnedVersion, onUpdateVersion }) {
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
         if (!error && versionRegex.test(version)) {
             const sanitizedVersion = version.startsWith('v') ? version.slice(1) : version;
             onUpdateVersion(sanitizedVersion);
@@ -32,7 +33,7 @@ function CustomVersionForm({ currentPinnedVersion, onUpdateVersion }) {
                 Specify a version based on the release number from{' '}
                 <Link to="https://github.com/newrelic/newrelic-browser-agent/releases">GitHub</Link>
             </BlockText>
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <TextField
                     value={version}
                     label="Custom Version"
@@ -42,7 +43,8 @@ function CustomVersionForm({ currentPinnedVersion, onUpdateVersion }) {
                 />
                 <Stack>
                     <StackItem>
-                        <Button type={Button.TYPE.PRIMARY} onClick={handleSubmit} disabled={!!error || !version}>
+                        {/*NR1 didn't let me specify type="submit" so I had to use onClick*/}
+                        <Button type={Button.TYPE.PRIMARY} disabled={!!error || !version} onClick={handleSubmit}>
                             Pin Version
                         </Button>
                     </StackItem>
