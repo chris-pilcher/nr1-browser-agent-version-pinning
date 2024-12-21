@@ -3,7 +3,7 @@ import { NerdGraphMutation, NerdletStateContext, logger } from "nr1";
 import { UPDATE_PINNED_VERSION } from "../graphql/mutations";
 import { PinnedVersionContext } from "../context";
 
-function useUpdatePinnedVersion() {
+export default function useUpdatePinnedVersion() {
   const { entityGuid: guid } = useContext(NerdletStateContext);
   const { setVersion } = useContext(PinnedVersionContext);
   const [error, setError] = useState(null);
@@ -31,5 +31,3 @@ function useUpdatePinnedVersion() {
   // TODO: Rename everything to isLoading
   return { updatePinnedVersion, isLoading, error };
 }
-
-export default useUpdatePinnedVersion;

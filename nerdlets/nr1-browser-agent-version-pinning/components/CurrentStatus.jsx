@@ -1,10 +1,10 @@
 import React from "react";
 import { Button, Card, CardBody, CardHeader, CardSection, HeadingText, InlineMessage, Spinner } from "nr1";
-import { usePinnedVersion, useUpdatePinnedVersion } from "../hooks";
+import { useModal, usePinnedVersion } from "../hooks";
 
-function CurrentStatus() {
+export default function CurrentStatus() {
   const { version, loading, error } = usePinnedVersion();
-  let { updatePinnedVersion, isLoading } = useUpdatePinnedVersion();
+  const { openModal } = useModal();
 
   return (
     <Card>
@@ -16,7 +16,7 @@ function CurrentStatus() {
           <StatusMessage loading={loading} error={error} version={version} />
         </CardSection>
         <CardSection>
-          <Button disabled={!version} loading={isLoading} onClick={() => updatePinnedVersion(null)}>
+          <Button disabled={!version} onClick={() => openModal(null)}>
             Remove Pinning
           </Button>
         </CardSection>
@@ -43,5 +43,3 @@ function StatusMessage({ loading, error, version }) {
     />
   );
 }
-
-export default CurrentStatus;

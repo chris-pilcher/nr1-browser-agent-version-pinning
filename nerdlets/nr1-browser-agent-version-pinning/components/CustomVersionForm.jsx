@@ -1,11 +1,12 @@
 import React, { Fragment, useState } from "react";
-import { Form, TextField, Button, BlockText, Link, logger } from "nr1";
-import { usePinnedVersion } from "../hooks";
+import { Form, TextField, Button, BlockText, Link } from "nr1";
+import { useModal, usePinnedVersion } from "../hooks";
 
-function CustomVersionForm() {
+export default function CustomVersionForm() {
   const { version: currentPinnedVersion } = usePinnedVersion();
   const [version, setVersion] = useState(currentPinnedVersion);
   const [invalid, setInvalid] = useState(false);
+  const { openModal } = useModal();
 
   // Regex for version (e.g. v1.234.5 or 1.2.3)
   const versionRegex = /^v?\d+\.\d+\.\d+$/;
@@ -20,8 +21,7 @@ function CustomVersionForm() {
     e.preventDefault();
     if (versionRegex.test(version)) {
       const versionWithoutPrefix = version.startsWith("v") ? version.slice(1) : version;
-      logger.log("TODO: Pin version to", versionWithoutPrefix);
-      // onUpdateVersion(versionWithoutPrefix);
+      openModal(versionWithoutPrefix);
     }
   };
 
@@ -52,5 +52,3 @@ function CustomVersionForm() {
     </Fragment>
   );
 }
-
-export default CustomVersionForm;

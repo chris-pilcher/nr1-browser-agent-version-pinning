@@ -1,8 +1,9 @@
 import React, { Fragment } from "react";
 import { BlockText, Button, HeadingText, Modal, Stack, StackItem, Toast } from "nr1";
-import { useUpdatePinnedVersion, usePinnedVersion } from "../hooks";
+import { useUpdatePinnedVersion, usePinnedVersion, useModal } from "../hooks";
 
-function ConfirmationModal({ hidden, newVersion, onClose }) {
+export default function ConfirmationModal() {
+  const { hidden, newVersion, closeModal } = useModal();
   const isRemovingPinning = newVersion === null;
   const titleText = isRemovingPinning ? "Remove Pinning" : "Update Pinning";
   const actionText = isRemovingPinning ? "Remove" : "Pin";
@@ -28,19 +29,19 @@ function ConfirmationModal({ hidden, newVersion, onClose }) {
         });
       })
       .finally(() => {
-        onClose();
+        closeModal();
       });
   };
 
   return (
-    <Modal hidden={hidden} onClose={onClose}>
+    <Modal hidden={hidden} onClose={closeModal}>
       <HeadingText type={HeadingText.TYPE.HEADING_3}>{titleText}</HeadingText>
       <BlockText spacingType={[BlockText.SPACING_TYPE.EXTRA_LARGE, BlockText.SPACING_TYPE.OMIT]}>
         {messageText}
       </BlockText>
       <Stack>
         <StackItem>
-          <Button onClick={onClose}>Cancel</Button>
+          <Button onClick={closeModal}>Cancel</Button>
         </StackItem>
         <StackItem>
           <Button
@@ -78,5 +79,3 @@ function createMessageText(isRemovingPinning, currentVersion, newVersion) {
     </Fragment>
   );
 }
-
-export default ConfirmationModal;

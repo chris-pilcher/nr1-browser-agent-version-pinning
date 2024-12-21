@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Badge, Table, TableHeader, TableHeaderCell, TableRow, TableRowCell, BlockText } from "nr1";
-import { ConfirmationModal } from "./index";
-import { usePinnedVersion } from "../hooks";
+import { usePinnedVersion, useModal } from "../hooks";
 
-function BrowserAgentTable() {
+export default function BrowserAgentTable() {
   const [eolData, setEolData] = useState([]);
-  const [hidden, setHidden] = useState(true);
-  const [newVersion, setNewVersion] = useState(null);
-  let { version, loading, error } = usePinnedVersion();
+  const { version, loading, error } = usePinnedVersion();
+  const { openModal } = useModal();
 
   useEffect(() => {
     fetch("https://chris-pilcher.github.io/nr1-browser-agent-version-pinning/browser-agent-eol-policy.json")
@@ -25,54 +23,47 @@ function BrowserAgentTable() {
         label: "Pin Version",
         disabled: itemVersion === version,
         onClick: (_, { item }) => {
-          setNewVersion(item.version);
-          setHidden(false);
+          openModal(item.version);
         },
       },
       {
         label: "Remove Pinning",
         disabled: itemVersion !== version,
         onClick: () => {
-          setNewVersion(null);
-          setHidden(false);
+          openModal(null);
         },
       },
     ];
   };
   return (
-    <>
-      <ConfirmationModal hidden={hidden} newVersion={newVersion} onClose={() => setHidden(true)} />
-      <Table items={eolData}>
-        <TableHeader>
-          <TableHeaderCell value={({ item }) => item.version}>Version</TableHeaderCell>
-          <TableHeaderCell value={({ item }) => item.startDate}>Support Start Date</TableHeaderCell>
-          <TableHeaderCell value={({ item }) => item.endDate}>Support End Date</TableHeaderCell>
-        </TableHeader>
+    <Table items={eolData}>
+      <TableHeader>
+        <TableHeaderCell value={({ item }) => item.version}>Version</TableHeaderCell>
+        <TableHeaderCell value={({ item }) => item.startDate}>Support Start Date</TableHeaderCell>
+        <TableHeaderCell value={({ item }) => item.endDate}>Support End Date</TableHeaderCell>
+      </TableHeader>
 
-        {({ item }) => (
-          <TableRow actions={getActions(item.version)}>
-            <TableRowCell>
-              {item.version} {version === item.version && <Badge type={Badge.TYPE.SUCCESS}>Current</Badge>}
-            </TableRowCell>
-            <TableRowCell>
-              {new Date(item.startDate).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </TableRowCell>
-            <TableRowCell>
-              {new Date(item.endDate).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </TableRowCell>
-          </TableRow>
-        )}
-      </Table>
-    </>
+      {({ item }) => (
+        <TableRow actions={getActions(item.version)}>
+          <TableRowCell>
+            {item.version} {version === item.version && <Badge type={Badge.TYPE.SUCCESS}>Current</Badge>}
+          </TableRowCell>
+          <TableRowCell>
+            {new Date(item.startDate).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </TableRowCell>
+          <TableRowCell>
+            {new Date(item.endDate).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </TableRowCell>
+        </TableRow>
+      )}
+    </Table>
   );
 }
-
-export default BrowserAgentTable;

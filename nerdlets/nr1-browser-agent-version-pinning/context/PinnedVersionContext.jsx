@@ -2,9 +2,9 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { NerdGraphQuery, NerdletStateContext, logger } from "nr1";
 import { FETCH_PINNED_VERSION } from "../graphql/queries";
 
-const PinnedVersionContext = createContext(null);
+export const PinnedVersionContext = createContext(null);
 
-const PinnedVersionProvider = ({ children }) => {
+export function PinnedVersionProvider({ children }) {
   const [version, setVersion] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -48,6 +48,4 @@ const PinnedVersionProvider = ({ children }) => {
       {children}
     </PinnedVersionContext.Provider>
   );
-};
-
-export { PinnedVersionContext, PinnedVersionProvider };
+}
