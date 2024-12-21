@@ -22,6 +22,7 @@ import { BrowserAgentTable, CustomVersionForm } from './components';
 import { UPDATE_PINNED_VERSION } from './graphql/mutations';
 // import { usePinnedVersion } from './hooks/usePinnedVersion';
 import { FETCH_PINNED_VERSION } from './graphql/queries';
+import CurrentStatus from './components/CurrentStatus';
 
 function Nr1BrowserAgentVersionPinningNerdlet() {
     const { entityGuid } = useContext(NerdletStateContext);
@@ -77,38 +78,7 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                                 </Card>
                             </GridItem>
                             <GridItem columnSpan={12}>
-                                <Card>
-                                    <CardHeader>
-                                        <HeadingText type={HeadingText.TYPE.HEADING_4}>
-                                            Current pinning status
-                                        </HeadingText>
-                                    </CardHeader>
-                                    <CardBody>
-                                        <CardSection>
-                                            {successfullyLoaded ? (
-                                                <InlineMessage
-                                                    type={
-                                                        pinnedVersion
-                                                            ? InlineMessage.TYPE.SUCCESS
-                                                            : InlineMessage.TYPE.INFO
-                                                    }
-                                                    label={
-                                                        pinnedVersion
-                                                            ? `Pinned version: ${pinnedVersion}`
-                                                            : `No version pinned`
-                                                    }
-                                                />
-                                            ) : (
-                                                <Spinner inline />
-                                            )}
-                                        </CardSection>
-                                        <CardSection>
-                                            <Button disabled={!pinnedVersion} onClick={() => handleUpdateVersion(null)}>
-                                                Remove Pinning
-                                            </Button>
-                                        </CardSection>
-                                    </CardBody>
-                                </Card>
+                                <CurrentStatus />
                             </GridItem>
                             <GridItem columnSpan={12}>
                                 <Card>
