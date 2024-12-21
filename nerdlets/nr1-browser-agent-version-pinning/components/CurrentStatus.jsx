@@ -4,6 +4,7 @@ import { usePinnedVersion } from "../hooks";
 
 function CurrentStatus() {
   let { version, loading, error } = usePinnedVersion();
+
   return (
     <Card>
       <CardHeader>
@@ -11,14 +12,7 @@ function CurrentStatus() {
       </CardHeader>
       <CardBody>
         <CardSection>
-          {!loading && !error ? (
-            <InlineMessage
-              type={version ? InlineMessage.TYPE.SUCCESS : InlineMessage.TYPE.INFO}
-              label={version ? `Pinned version: ${version}` : `No version pinned`}
-            />
-          ) : (
-            <Spinner inline />
-          )}
+          <StatusMessage loading={loading} error={error} version={version} />
         </CardSection>
         <CardSection>
           <Button disabled={!version} onClick={() => handleUpdateVersion(null)}>
@@ -27,6 +21,25 @@ function CurrentStatus() {
         </CardSection>
       </CardBody>
     </Card>
+  );
+}
+
+function StatusMessage({ loading, error, version }) {
+  if (loading) return <Spinner inline />;
+  if (error) {
+    return (
+      <InlineMessage
+        type={InlineMessage.TYPE.CRITICAL}
+        label="Failed to fetch pinned version"
+        description="An error occurred while trying to fetch the current pinned version. Please try again later."
+      />
+    );
+  }
+  return (
+    <InlineMessage
+      type={version ? InlineMessage.TYPE.SUCCESS : InlineMessage.TYPE.NORMAL}
+      label={version ? `Pinned version: ${version}` : "No version pinned"}
+    />
   );
 }
 
