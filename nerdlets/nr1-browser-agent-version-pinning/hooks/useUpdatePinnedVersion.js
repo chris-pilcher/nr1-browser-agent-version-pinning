@@ -28,6 +28,7 @@ function useUpdatePinnedVersion() {
         setIsLoading(false);
       });
   };
+  // TODO: Rename everything to isLoading
   return { updatePinnedVersion, isLoading, error };
 }
 

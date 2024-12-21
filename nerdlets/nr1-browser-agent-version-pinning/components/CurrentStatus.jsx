@@ -1,9 +1,10 @@
 import React from "react";
 import { Button, Card, CardBody, CardHeader, CardSection, HeadingText, InlineMessage, Spinner } from "nr1";
-import { usePinnedVersion } from "../hooks";
+import { usePinnedVersion, useUpdatePinnedVersion } from "../hooks";
 
 function CurrentStatus() {
-  let { version, loading, error } = usePinnedVersion();
+  const { version, loading, error } = usePinnedVersion();
+  let { updatePinnedVersion, isLoading } = useUpdatePinnedVersion();
 
   return (
     <Card>
@@ -15,7 +16,7 @@ function CurrentStatus() {
           <StatusMessage loading={loading} error={error} version={version} />
         </CardSection>
         <CardSection>
-          <Button disabled={!version} onClick={() => handleUpdateVersion(null)}>
+          <Button disabled={!version} loading={isLoading} onClick={() => updatePinnedVersion(null)}>
             Remove Pinning
           </Button>
         </CardSection>
