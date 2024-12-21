@@ -85,24 +85,22 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                                     </CardHeader>
                                     <CardBody>
                                         <CardSection>
-                                            <CardSection>
-                                                {successfullyLoaded ? (
-                                                    <InlineMessage
-                                                        type={
-                                                            pinnedVersion
-                                                                ? InlineMessage.TYPE.SUCCESS
-                                                                : InlineMessage.TYPE.INFO
-                                                        }
-                                                        label={
-                                                            pinnedVersion
-                                                                ? `Pinned version: ${pinnedVersion}`
-                                                                : `No version pinned`
-                                                        }
-                                                    />
-                                                ) : (
-                                                    <Spinner inline />
-                                                )}
-                                            </CardSection>
+                                            {successfullyLoaded ? (
+                                                <InlineMessage
+                                                    type={
+                                                        pinnedVersion
+                                                            ? InlineMessage.TYPE.SUCCESS
+                                                            : InlineMessage.TYPE.INFO
+                                                    }
+                                                    label={
+                                                        pinnedVersion
+                                                            ? `Pinned version: ${pinnedVersion}`
+                                                            : `No version pinned`
+                                                    }
+                                                />
+                                            ) : (
+                                                <Spinner inline />
+                                            )}
                                         </CardSection>
                                         <CardSection>
                                             <Button disabled={!pinnedVersion} onClick={() => handleUpdateVersion(null)}>
