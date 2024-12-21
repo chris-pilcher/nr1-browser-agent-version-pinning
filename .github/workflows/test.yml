@@ -1,32 +1,32 @@
 name: Tests
 
 on:
-    workflow_dispatch:
+  workflow_dispatch:
 #    pull_request:
 #        branches:
 #            - main
 
 permissions:
-    contents: read
+  contents: read
 
 jobs:
-    test:
-        name: Jest Tests
-        runs-on: ubuntu-latest
+  test:
+    name: Jest Tests
+    runs-on: ubuntu-latest
 
-        steps:
-            -   name: Checkout code
-                uses: actions/checkout@v4
-                with:
-                    persist-credentials: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
-            -   name: Set up Node.js
-                uses: actions/setup-node@v4
-                with:
-                    node-version: 22
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
 
-            -   name: Install dependencies
-                run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-            -   name: Run tests
-                run: npm test
+      - name: Run tests
+        run: npm test

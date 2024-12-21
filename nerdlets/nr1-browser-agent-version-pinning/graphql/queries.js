@@ -1,4 +1,4 @@
-import { ngql } from 'nr1';
+import { ngql } from "nr1";
 
 export const FETCH_PINNED_VERSION = ngql`
   query FetchBrowserMonitoringAgentSettings($browserAppGuid: EntityGuid!) {

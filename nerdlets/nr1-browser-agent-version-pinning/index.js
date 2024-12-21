@@ -12,7 +12,6 @@ import {
   Link,
   Tabs,
   TabsItem,
-  Spinner,
 } from "nr1";
 import { BrowserAgentTable, CurrentStatus, CustomVersionForm } from "./components";
 import { PinnedVersionProvider } from "./context";

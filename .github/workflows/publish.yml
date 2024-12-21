@@ -1,40 +1,40 @@
 name: Publish
 
 on:
-    release:
-        types:
-            - published
+  release:
+    types:
+      - published
 
 permissions:
-    contents: read
+  contents: read
 
 jobs:
-    publish:
-        name: Publish Nerdpack
-        runs-on: ubuntu-latest
+  publish:
+    name: Publish Nerdpack
+    runs-on: ubuntu-latest
 
-        steps:
-            -   name: Checkout Code
-                uses: actions/checkout@v4
-                with:
-                    persist-credentials: false
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
-            -   name: Set Version From Release Tag
-                run: npm version ${RELEASE_TAG_NAME} --no-git-tag-version
-                env:
-                    RELEASE_TAG_NAME: ${{ github.event.release.tag_name }}
+      - name: Set Version From Release Tag
+        run: npm version ${RELEASE_TAG_NAME} --no-git-tag-version
+        env:
+          RELEASE_TAG_NAME: ${{ github.event.release.tag_name }}
 
-            -   name: NR1 CLI - Install
-                run: curl -s https://cli.nr-ext.net/installer.sh | sudo bash
+      - name: NR1 CLI - Install
+        run: curl -s https://cli.nr-ext.net/installer.sh | sudo bash
 
-            -   name: NR1 CLI - Add Profile
-                run: nr1 profiles:add --name test-env --api-key ${NEW_RELIC_API_KEY} --region ${NEW_RELIC_REGION}
-                env:
-                    NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
-                    NEW_RELIC_REGION: ${{ vars.NEW_RELIC_REGION }}
+      - name: NR1 CLI - Add Profile
+        run: nr1 profiles:add --name test-env --api-key ${NEW_RELIC_API_KEY} --region ${NEW_RELIC_REGION}
+        env:
+          NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
+          NEW_RELIC_REGION: ${{ vars.NEW_RELIC_REGION }}
 
-            -   name: NR1 CLI - Display Version
-                run: nr1 --version
+      - name: NR1 CLI - Display Version
+        run: nr1 --version
 
-            -   name: Publish
-                run: nr1 nerdpack:publish
+      - name: Publish
+        run: nr1 nerdpack:publish

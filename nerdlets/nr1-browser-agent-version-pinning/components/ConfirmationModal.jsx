@@ -26,9 +26,10 @@ function ConfirmationModal({ hidden, newVersion, onClose }) {
           actions: [{ label: "Retry", onClick: handleUpdatePinnedVersion }],
           type: Toast.TYPE.CRITICAL,
         });
-      }).finally(() => {
+      })
+      .finally(() => {
         onClose();
-    });
+      });
   };
 
   return (
