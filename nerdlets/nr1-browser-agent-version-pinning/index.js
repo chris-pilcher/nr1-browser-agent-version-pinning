@@ -18,15 +18,12 @@ import {
     TabsItem,
     Spinner,
 } from 'nr1';
-import { BrowserAgentTable, CustomVersionForm, ConfirmationModal } from './components';
+import { BrowserAgentTable, CustomVersionForm } from './components';
 import { UPDATE_PINNED_VERSION } from './graphql/mutations';
 // import { usePinnedVersion } from './hooks/usePinnedVersion';
 import { FETCH_PINNED_VERSION } from './graphql/queries';
 
 function Nr1BrowserAgentVersionPinningNerdlet() {
-    const [newVersion, setNewVersion] = useState(null);
-    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-
     const { entityGuid } = useContext(NerdletStateContext);
     // TODO: Add a loading state using pinnedVersionLoading. Show error message using pinnedVersionError.
     // const { pinnedVersion, setPinnedVersion, pinnedVersionError, pinnedVersionLoading } = usePinnedVersion(entityGuid);
@@ -42,23 +39,13 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
             variables={{ browserAppGuid: entityGuid }}
             fetchPolicyType={NerdGraphQuery.FETCH_POLICY_TYPE.CACHE_AND_NETWORK}
         >
-            {({ loading, error, data, refetch }) => {
+            {({ loading, error, data }) => {
                 // if (loading) return <BlockText>Loading...</BlockText>;
                 // if (error) return <BlockText>{error.message}</BlockText>;
                 const successfullyLoaded = !loading && !error;
                 const pinnedVersion = data?.actor.entity.browserSettings.browserMonitoring.pinnedVersion;
                 return (
                     <>
-                        <ConfirmationModal
-                            showModal={showConfirmationModal}
-                            currentVersion={pinnedVersion}
-                            newVersion={newVersion}
-                            refetch={refetch}
-                            onConfirm={() => {
-                                setShowConfirmationModal(false)
-                            }}
-                            onCancel={() => setShowConfirmationModal(false)}
-                        />
                         <Grid>
                             <GridItem columnSpan={12}>
                                 <Card>
@@ -148,19 +135,14 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                                                     </Link>
                                                 </BlockText>
                                                 {/*TODO: What happens when I do not have permission to update pinning?*/}
-                                                <BrowserAgentTable
-                                                    currentPinnedVersion={pinnedVersion}
-                                                    onUpdateVersion={(version) => {
-                                                        setNewVersion(version);
-                                                        setShowConfirmationModal(true);
-                                                    }}
+                                                <BrowserAgentTable />
                                                 />
                                             </TabsItem>
                                             <TabsItem value="custom" label="Custom version">
-                                                <CustomVersionForm
-                                                    currentPinnedVersion={pinnedVersion}
-                                                    // onUpdateVersion={handleUpdateVersion}
-                                                />
+                                                {/*<CustomVersionForm*/}
+                                                {/*    currentPinnedVersion={pinnedVersion}*/}
+                                                {/*    // onUpdateVersion={handleUpdateVersion}*/}
+                                                {/*/>*/}
                                             </TabsItem>
                                         </Tabs>
                                     </CardBody>

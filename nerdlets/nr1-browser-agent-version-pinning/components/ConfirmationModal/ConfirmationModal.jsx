@@ -1,38 +1,62 @@
 import React, { Fragment, useContext, useState } from 'react';
-import { BlockText, Button, HeadingText, Modal, Stack, StackItem, NerdletStateContext, NerdGraphMutation, Toast } from 'nr1';
+import {
+    BlockText,
+    Button,
+    HeadingText,
+    Modal,
+    Stack,
+    StackItem,
+    NerdletStateContext,
+    NerdGraphMutation,
+    Toast,
+    NerdGraphQuery,
+} from 'nr1';
 import { UPDATE_PINNED_VERSION } from '../../graphql/mutations';
+import { FETCH_PINNED_VERSION } from '../../graphql/queries';
 
-function ConfirmationModal({ showModal, currentVersion, newVersion, refetch, onCancel, onConfirm }) {
+function ConfirmationModal({ hidden, newVersion, onClose }) {
     const { entityGuid } = useContext(NerdletStateContext);
     const isRemovingPinning = newVersion === null;
     const titleText = isRemovingPinning ? 'Remove Pinning' : 'Update Pinning';
-    const messageText = createMessageText(isRemovingPinning, currentVersion, newVersion);
     const actionText = isRemovingPinning ? 'Remove' : 'Pin';
     const [isUpdating, setIsUpdating] = useState(false);
 
     return (
-        <Modal hidden={!showModal} onClose={onCancel}>
-            <HeadingText type={HeadingText.TYPE.HEADING_3}>{titleText}</HeadingText>
-            <BlockText spacingType={[BlockText.SPACING_TYPE.EXTRA_LARGE, BlockText.SPACING_TYPE.OMIT]}>
-                {messageText}
-            </BlockText>
-            <Stack>
-                <StackItem>
-                    <Button onClick={onCancel}>Cancel</Button>
-                </StackItem>
-                <StackItem>
-                    <Button
-                        type={isRemovingPinning ? Button.TYPE.DESTRUCTIVE : Button.TYPE.PRIMARY}
-                        onClick={() => {
-                            onUpdateVersion(entityGuid, newVersion, refetch, onConfirm, setIsUpdating);
-                        }}
-                        loading={isUpdating}
-                    >
-                        {actionText}
-                    </Button>
-                </StackItem>
-            </Stack>
-        </Modal>
+        <NerdGraphQuery
+            query={FETCH_PINNED_VERSION}
+            variables={{ browserAppGuid: entityGuid }}
+            fetchPolicyType={NerdGraphQuery.FETCH_POLICY_TYPE.CACHE_ONLY}
+        >
+            {({ data, refetch }) => {
+                const pinnedVersion = data?.actor.entity.browserSettings.browserMonitoring.pinnedVersion;
+                const messageText = createMessageText(isRemovingPinning, pinnedVersion, newVersion);
+
+                return (
+                    <Modal hidden={hidden} onClose={onClose}>
+                        <HeadingText type={HeadingText.TYPE.HEADING_3}>{titleText}</HeadingText>
+                        <BlockText spacingType={[BlockText.SPACING_TYPE.EXTRA_LARGE, BlockText.SPACING_TYPE.OMIT]}>
+                            {messageText}
+                        </BlockText>
+                        <Stack>
+                            <StackItem>
+                                <Button onClick={onClose}>Cancel</Button>
+                            </StackItem>
+                            <StackItem>
+                                <Button
+                                    type={isRemovingPinning ? Button.TYPE.DESTRUCTIVE : Button.TYPE.PRIMARY}
+                                    onClick={() => {
+                                        onUpdateVersion(entityGuid, newVersion, refetch, () => onClose(), setIsUpdating);
+                                    }}
+                                    loading={isUpdating}
+                                >
+                                    {actionText}
+                                </Button>
+                            </StackItem>
+                        </Stack>
+                    </Modal>
+                );
+            }}
+        </NerdGraphQuery>
     );
 }
 
@@ -81,7 +105,6 @@ function onUpdateVersion(entityGuid, newVersion, refetch, onComplete, setIsUpdat
                     type: Toast.TYPE.NORMAL,
                 });
             });
-
         })
         .catch((e) => {
             console.log(e); // TODO: Use the logger that nerdlets provides
