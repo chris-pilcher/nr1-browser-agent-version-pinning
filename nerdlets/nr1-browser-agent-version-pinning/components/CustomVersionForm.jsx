@@ -1,8 +1,10 @@
 import React, { Fragment, useState } from "react";
-import { Form, TextField, Button, BlockText, Link } from "nr1";
+import { Form, TextField, Button, BlockText, Link, logger } from "nr1";
+import { usePinnedVersion } from "../hooks";
 
-function CustomVersionForm({ currentPinnedVersion, onUpdateVersion }) {
-  const [version, setVersion] = useState(currentPinnedVersion || "");
+function CustomVersionForm() {
+  const { version: currentPinnedVersion } = usePinnedVersion();
+  const [version, setVersion] = useState(currentPinnedVersion);
   const [invalid, setInvalid] = useState(false);
 
   // Regex for version (e.g. v1.234.5 or 1.2.3)
@@ -18,7 +20,8 @@ function CustomVersionForm({ currentPinnedVersion, onUpdateVersion }) {
     e.preventDefault();
     if (versionRegex.test(version)) {
       const versionWithoutPrefix = version.startsWith("v") ? version.slice(1) : version;
-      onUpdateVersion(versionWithoutPrefix);
+      logger.log("TODO: Pin version to", versionWithoutPrefix);
+      // onUpdateVersion(versionWithoutPrefix);
     }
   };
 

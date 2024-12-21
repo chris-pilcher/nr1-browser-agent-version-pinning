@@ -67,10 +67,7 @@ function Nr1BrowserAgentVersionPinningNerdlet() {
                   <BrowserAgentTable />
                 </TabsItem>
                 <TabsItem value="custom" label="Custom version">
-                  {/*<CustomVersionForm*/}
-                  {/*    currentPinnedVersion={pinnedVersion}*/}
-                  {/*    // onUpdateVersion={handleUpdateVersion}*/}
-                  {/*/>*/}
+                  <CustomVersionForm />
                 </TabsItem>
               </Tabs>
             </CardBody>
