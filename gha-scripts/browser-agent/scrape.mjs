@@ -1,10 +1,9 @@
 import { promises as fs } from "fs";
 import * as cheerio from "cheerio";
+import { EOL_DOCS_URL } from "../../nerdlets/nr1-browser-agent-version-pinning/config";
 
 async function scrapeBrowserAgentData() {
-  const URL = "https://docs.newrelic.com/docs/browser/browser-monitoring/getting-started/browser-agent-eol-policy/";
-
-  const response = await fetch(URL);
+  const response = await fetch(EOL_DOCS_URL);
   if (!response.ok) {
     throw new Error(`Network response was not ok: ${response.statusText}`);
   }

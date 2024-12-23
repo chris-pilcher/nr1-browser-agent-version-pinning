@@ -47,12 +47,6 @@ export default function Nr1BrowserAgentVersionPinningNerdlet() {
                 <CardBody>
                   <Tabs defaultValue="supported">
                     <TabsItem value="supported" label="Supported versions">
-                      <BlockText spacingType={[BlockText.SPACING_TYPE.MEDIUM]}>
-                        The versions in the table below are the{" "}
-                        <Link to="https://docs.newrelic.com/docs/browser/browser-monitoring/getting-started/browser-agent-eol-policy/">
-                          currently supported versions of the New Relic browser agent
-                        </Link>
-                      </BlockText>
                       {/*TODO: What happens when I do not have permission to update pinning?*/}
                       <BrowserAgentTable />
                     </TabsItem>

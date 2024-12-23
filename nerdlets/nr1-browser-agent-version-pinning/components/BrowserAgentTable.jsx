@@ -1,22 +1,46 @@
-import React, { useEffect, useState } from "react";
-import { Badge, Table, TableHeader, TableHeaderCell, TableRow, TableRowCell, BlockText } from "nr1";
+import React from "react";
+import {
+  Badge,
+  Table,
+  TableHeader,
+  TableHeaderCell,
+  TableRow,
+  TableRowCell,
+  BlockText,
+  Link,
+  EmptyState,
+} from "nr1";
 import { usePinnedVersion, useModal } from "../hooks";
+import useEolData from "../hooks/useEolData";
+import { EOL_DOCS_URL } from "../config";
 
 export default function BrowserAgentTable() {
-  const [eolData, setEolData] = useState([]);
-  const { version, loading, error } = usePinnedVersion();
+  const { eolData, loading, error, refetch } = useEolData();
+  const { version } = usePinnedVersion();
   const { openModal } = useModal();
 
-  useEffect(() => {
-    fetch("https://chris-pilcher.github.io/nr1-browser-agent-version-pinning/browser-agent-eol-policy.json")
-      .then((resultJson) => resultJson.json())
-      .then(setEolData)
-      .catch(console.error); // TODO: Use the logger provided by the Nerdpack SDK
-  }, []);
+  if (loading)
+    return (
+      <EmptyState
+        title="Fetching the currently supported versions of the New Relic browser agent"
+        type={EmptyState.TYPE.LOADING}
+      />
+    );
 
-  if (loading) return <BlockText>Loading...</BlockText>;
-  if (error) return <BlockText>{error.message}</BlockText>;
-
+  if (error)
+    return (
+      <EmptyState
+        type={EmptyState.TYPE.ERROR}
+        iconType={EmptyState.ICON_TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__SERVICE__S_ERROR}
+        title="We couldn't fetch the currently supported versions of the New Relic browser agent"
+        description="Refresh the page to try again."
+        additionalInfoLink={{
+          label: "Currently supported versions of the New Relic browser agent",
+          to: EOL_DOCS_URL,
+        }}
+        action={{ label: "Refresh the page", onClick: refetch }}
+      />
+    );
   const getActions = (itemVersion) => {
     return [
       {
@@ -36,34 +60,40 @@ export default function BrowserAgentTable() {
     ];
   };
   return (
-    <Table items={eolData}>
-      <TableHeader>
-        <TableHeaderCell value={({ item }) => item.version}>Version</TableHeaderCell>
-        <TableHeaderCell value={({ item }) => item.startDate}>Support Start Date</TableHeaderCell>
-        <TableHeaderCell value={({ item }) => item.endDate}>Support End Date</TableHeaderCell>
-      </TableHeader>
+    <>
+      <BlockText spacingType={[BlockText.SPACING_TYPE.MEDIUM]}>
+        The versions in the table below are the{" "}
+        <Link to={EOL_DOCS_URL}>currently supported versions of the New Relic browser agent</Link>
+      </BlockText>
+      <Table items={eolData}>
+        <TableHeader>
+          <TableHeaderCell value={({ item }) => item.version}>Version</TableHeaderCell>
+          <TableHeaderCell value={({ item }) => item.startDate}>Support Start Date</TableHeaderCell>
+          <TableHeaderCell value={({ item }) => item.endDate}>Support End Date</TableHeaderCell>
+        </TableHeader>
 
-      {({ item }) => (
-        <TableRow actions={getActions(item.version)}>
-          <TableRowCell>
-            {item.version} {version === item.version && <Badge type={Badge.TYPE.SUCCESS}>Current</Badge>}
-          </TableRowCell>
-          <TableRowCell>
-            {new Date(item.startDate).toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </TableRowCell>
-          <TableRowCell>
-            {new Date(item.endDate).toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </TableRowCell>
-        </TableRow>
-      )}
-    </Table>
+        {({ item }) => (
+          <TableRow actions={getActions(item.version)}>
+            <TableRowCell>
+              {item.version} {version === item.version && <Badge type={Badge.TYPE.SUCCESS}>Pinned</Badge>}
+            </TableRowCell>
+            <TableRowCell>
+              {new Date(item.startDate).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </TableRowCell>
+            <TableRowCell>
+              {new Date(item.endDate).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </TableRowCell>
+          </TableRow>
+        )}
+      </Table>
+    </>
   );
 }
