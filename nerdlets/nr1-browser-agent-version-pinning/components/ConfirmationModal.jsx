@@ -7,30 +7,31 @@ export default function ConfirmationModal() {
   const isRemovingPinning = newVersion === null;
   const titleText = isRemovingPinning ? "Remove Pinning" : "Update Pinning";
   const actionText = isRemovingPinning ? "Remove" : "Pin";
-  const { version } = usePinnedVersion();
-  const { updatePinnedVersion, isLoading } = useUpdatePinnedVersion();
+  const { data: version } = usePinnedVersion();
+  const { mutate: updatePinnedVersion, isLoading } = useUpdatePinnedVersion();
   const messageText = createMessageText(isRemovingPinning, version, newVersion);
 
   const handleUpdatePinnedVersion = () => {
-    updatePinnedVersion(newVersion)
-      .then(() => {
+    updatePinnedVersion(newVersion, {
+      onSuccess: () => {
         Toast.showToast({
           title: "Updated",
           description: newVersion ? `Pinned version updated to ${newVersion}` : "Pinning removed",
           type: Toast.TYPE.NORMAL,
         });
-      })
-      .catch(() => {
+      },
+      onError: () => {
         Toast.showToast({
           title: "Update Failed",
           description: "Failed to update pinned version",
           actions: [{ label: "Retry", onClick: handleUpdatePinnedVersion }],
           type: Toast.TYPE.CRITICAL,
         });
-      })
-      .finally(() => {
+      },
+      onSettled: () => {
         closeModal();
-      });
+      },
+    });
   };
 
   return (

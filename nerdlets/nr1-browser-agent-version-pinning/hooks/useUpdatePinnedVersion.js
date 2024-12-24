@@ -1,33 +1,21 @@
-import { useContext, useState } from "react";
-import { NerdGraphMutation, NerdletStateContext, logger } from "nr1";
+import { useContext } from "react";
+import { NerdGraphMutation, NerdletStateContext } from "nr1";
 import { UPDATE_PINNED_VERSION } from "../graphql/mutations";
-import { PinnedVersionContext } from "../context";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function useUpdatePinnedVersion() {
-  const { entityGuid: guid } = useContext(NerdletStateContext);
-  const { setVersion } = useContext(PinnedVersionContext);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const { entityGuid } = useContext(NerdletStateContext);
+  const queryClient = useQueryClient();
 
-  const updatePinnedVersion = (pinnedVersion) => {
-    setIsLoading(true);
-    setError(null);
-    return NerdGraphMutation.mutate({
-      mutation: UPDATE_PINNED_VERSION,
-      variables: { guid, pinnedVersion },
-    })
-      .then(({ data: response }) => {
-        setVersion(response.agentApplicationSettingsUpdate.browserSettings.browserMonitoring.pinnedVersion);
-      })
-      .catch((e) => {
-        setError(e);
-        logger.error(`Error updating pinned version to ${pinnedVersion}.`, e);
-        throw e;
-      })
-      .finally(() => {
-        setIsLoading(false);
+  return useMutation({
+    mutationFn: (pinnedVersion) => {
+      return NerdGraphMutation.mutate({
+        mutation: UPDATE_PINNED_VERSION,
+        variables: { guid: entityGuid, pinnedVersion },
       });
-  };
-  // TODO: Rename everything to isLoading
-  return { updatePinnedVersion, isLoading, error };
+    },
+    onSuccess: (response) => {
+      queryClient.setQueryData(["pinnedVersion"], response.data.agentApplicationSettingsUpdate.browserSettings.browserMonitoring.pinnedVersion);
+    },
+  });
 }

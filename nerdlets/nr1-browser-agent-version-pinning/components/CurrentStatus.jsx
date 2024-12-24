@@ -3,7 +3,8 @@ import { Button, Card, CardBody, CardHeader, CardSection, HeadingText, InlineMes
 import { useModal, usePinnedVersion } from "../hooks";
 
 export default function CurrentStatus() {
-  const { version, loading, error } = usePinnedVersion();
+  const { data: version, isLoading: loading, error } = usePinnedVersion();
+
   const { openModal } = useModal();
 
   return (

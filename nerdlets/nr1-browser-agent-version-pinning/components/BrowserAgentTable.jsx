@@ -1,18 +1,21 @@
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Badge, Table, TableHeader, TableHeaderCell, TableRow, TableRowCell, BlockText, Link, EmptyState } from "nr1";
 import { usePinnedVersion, useModal } from "../hooks";
-import useEolData from "../hooks/useEolData";
 import { EOL_DATA_URL, EOL_DOCS_URL } from "../config";
-import { useQuery } from "@tanstack/react-query";
 
 export default function BrowserAgentTable() {
-  // const { eolData, loading, error, refetch } = useEolData();
-  const { data: eolData, isLoading: loading, error, refetch } = useQuery({
+  const {
+    data: eolData,
+    isLoading: loading,
+    error,
+    refetch,
+  } = useQuery({
     queryKey: ["eol"],
     queryFn: () => fetch(EOL_DATA_URL).then((res) => res.json()),
   });
 
-  const { version } = usePinnedVersion();
+  const { data: version } = usePinnedVersion();
   const { openModal } = useModal();
 
   if (loading)
