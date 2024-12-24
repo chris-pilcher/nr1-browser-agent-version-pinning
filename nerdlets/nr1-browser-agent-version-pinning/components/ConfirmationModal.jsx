@@ -1,9 +1,10 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { BlockText, Button, HeadingText, Modal, Stack, StackItem, Toast } from "nr1";
 import { useUpdatePinnedVersion, usePinnedVersion, useModal } from "../hooks";
+import { ModalContext } from "../context";
 
 export default function ConfirmationModal() {
-  const { hidden, newVersion, closeModal } = useModal();
+  const { hidden, newVersion, closeModal } = useContext(ModalContext);
   const isRemovingPinning = newVersion === null;
   const titleText = isRemovingPinning ? "Remove Pinning" : "Update Pinning";
   const actionText = isRemovingPinning ? "Remove" : "Pin";
