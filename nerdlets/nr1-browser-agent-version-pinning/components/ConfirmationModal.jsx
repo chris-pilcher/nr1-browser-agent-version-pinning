@@ -1,19 +1,24 @@
 import React, { Fragment, useContext } from "react";
 import { BlockText, Button, HeadingText, Modal, Stack, StackItem, Toast } from "nr1";
-import { useUpdatePinnedVersion, usePinnedVersion, useModal } from "../hooks";
+import { usePinnedVersionMutation, usePinnedVersionQuery } from "../hooks";
 import { ModalContext } from "../context";
 
 export default function ConfirmationModal() {
-  const { hidden, newVersion, closeModal } = useContext(ModalContext);
+  const { hidden, newVersion, setHidden } = useContext(ModalContext);
+  const pinnedVersionQuery = usePinnedVersionQuery();
+  const pinnedVersionMutation = usePinnedVersionMutation();
+
   const isRemovingPinning = newVersion === null;
   const titleText = isRemovingPinning ? "Remove Pinning" : "Update Pinning";
   const actionText = isRemovingPinning ? "Remove" : "Pin";
-  const { data: version } = usePinnedVersion();
-  const { mutate: updatePinnedVersion, isLoading } = useUpdatePinnedVersion();
-  const messageText = createMessageText(isRemovingPinning, version, newVersion);
+  const messageText = createMessageText(isRemovingPinning, pinnedVersionQuery.data, newVersion);
+
+  const closeModal = () => {
+    setHidden(true);
+  };
 
   const handleUpdatePinnedVersion = () => {
-    updatePinnedVersion(newVersion, {
+    pinnedVersionMutation.mutate(newVersion, {
       onSuccess: () => {
         Toast.showToast({
           title: "Updated",
@@ -29,9 +34,7 @@ export default function ConfirmationModal() {
           type: Toast.TYPE.CRITICAL,
         });
       },
-      onSettled: () => {
-        closeModal();
-      },
+      onSettled: closeModal,
     });
   };
 
@@ -49,7 +52,7 @@ export default function ConfirmationModal() {
           <Button
             type={isRemovingPinning ? Button.TYPE.DESTRUCTIVE : Button.TYPE.PRIMARY}
             onClick={handleUpdatePinnedVersion}
-            loading={isLoading}>
+            loading={pinnedVersionMutation.isLoading}>
             {actionText}
           </Button>
         </StackItem>
@@ -58,6 +61,7 @@ export default function ConfirmationModal() {
   );
 }
 
+// TODO: This is a bit long. Maybe make it more concise? maybe a map?
 function createMessageText(isRemovingPinning, currentVersion, newVersion) {
   if (isRemovingPinning) {
     return (

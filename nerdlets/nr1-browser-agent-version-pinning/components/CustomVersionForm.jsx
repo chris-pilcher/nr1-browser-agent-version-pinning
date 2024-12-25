@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from "react";
 import { Form, TextField, Button, BlockText, Link } from "nr1";
-import { useModal, usePinnedVersion } from "../hooks";
+import { useModal, usePinnedVersionQuery } from "../hooks";
 
 export default function CustomVersionForm() {
-  const { version: currentPinnedVersion } = usePinnedVersion();
-  const [version, setVersion] = useState(currentPinnedVersion);
+  const pinnedVersionQuery = usePinnedVersionQuery();
+  const [version, setVersion] = useState(pinnedVersionQuery.data ?? "");
   const [invalid, setInvalid] = useState(false);
   const { openModal } = useModal();
 
@@ -41,11 +41,7 @@ export default function CustomVersionForm() {
           invalid={invalid}
         />
         {/* NR1 didn't let me specify type="submit" so I had to use onClick */}
-        <Button
-          type={Button.TYPE.PRIMARY}
-          disabled={invalid || !version}
-          onClick={handleSubmit}
-          test={"my really long value"}>
+        <Button type={Button.TYPE.PRIMARY} disabled={invalid || !version} onClick={handleSubmit}>
           Pin Version
         </Button>
       </Form>

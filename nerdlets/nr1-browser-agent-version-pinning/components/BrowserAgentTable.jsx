@@ -1,32 +1,22 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
 import { Badge, Table, TableHeader, TableHeaderCell, TableRow, TableRowCell, BlockText, Link, EmptyState } from "nr1";
-import { usePinnedVersion, useModal } from "../hooks";
-import { EOL_DATA_URL, EOL_DOCS_URL } from "../config";
+import { usePinnedVersionQuery, useModal, useVersionListQuery } from "../hooks";
+import { EOL_DOCS_URL } from "../config";
 
 export default function BrowserAgentTable() {
-  const {
-    data: eolData,
-    isLoading: loading,
-    error,
-    refetch,
-  } = useQuery({
-    queryKey: ["eol"],
-    queryFn: () => fetch(EOL_DATA_URL).then((res) => res.json()),
-  });
-
-  const { data: version } = usePinnedVersion();
+  const versionListQuery = useVersionListQuery();
+  const pinnedVersionQuery = usePinnedVersionQuery();
   const { openModal } = useModal();
 
-  if (loading)
+  if (versionListQuery.isLoading)
     return (
       <EmptyState
         title="Fetching the currently supported versions of the New Relic browser agent"
         type={EmptyState.TYPE.LOADING}
       />
     );
-
-  if (error)
+  // TODO: split this up?
+  if (versionListQuery.isError)
     return (
       <EmptyState
         type={EmptyState.TYPE.ERROR}
@@ -40,43 +30,45 @@ export default function BrowserAgentTable() {
         action={{ label: "Refresh the page", onClick: refetch }}
       />
     );
+  // TODO: Move this to a function /  somewhere else (maybe below?)
   const getActions = (itemVersion) => {
     return [
       {
         label: "Pin Version",
-        disabled: itemVersion === version,
+        disabled: itemVersion === pinnedVersionQuery.data,
         onClick: (_, { item }) => {
           openModal(item.version);
         },
       },
       {
         label: "Remove Pinning",
-        disabled: itemVersion !== version,
+        disabled: itemVersion !== pinnedVersionQuery.data,
         onClick: () => {
           openModal(null);
         },
       },
     ];
   };
+  // TODO: Review all the text in all the components and see if we can make it more clear. Shorter, more concise, etc.
   return (
     <>
       <BlockText spacingType={[BlockText.SPACING_TYPE.MEDIUM]}>
         The versions in the table below are the{" "}
         <Link to={EOL_DOCS_URL}>currently supported versions of the New Relic browser agent</Link>
       </BlockText>
-      <Table items={eolData}>
+      <Table items={versionListQuery.data}>
         <TableHeader>
           <TableHeaderCell value={({ item }) => item.version}>Version</TableHeaderCell>
           <TableHeaderCell value={({ item }) => item.startDate}>Support Start Date</TableHeaderCell>
           <TableHeaderCell value={({ item }) => item.endDate}>Support End Date</TableHeaderCell>
         </TableHeader>
-
         {({ item }) => (
           <TableRow actions={getActions(item.version)}>
             <TableRowCell>
-              {item.version} {version === item.version && <Badge type={Badge.TYPE.SUCCESS}>Pinned</Badge>}
+              {item.version} {pinnedVersionQuery.data === item.version && <Badge type={Badge.TYPE.SUCCESS}>Pinned</Badge>}
             </TableRowCell>
             <TableRowCell>
+              {/* TODO: Consider utils for the date functions */}
               {new Date(item.startDate).toLocaleDateString("en-US", {
                 month: "short",
                 day: "numeric",

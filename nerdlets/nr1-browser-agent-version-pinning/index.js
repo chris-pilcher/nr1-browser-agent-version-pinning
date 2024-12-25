@@ -6,12 +6,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 
+// TODO: Check the name of the nerdlets from an example repo. Should this be NR1? Probably not
 export default function Nr1BrowserAgentVersionPinningNerdlet() {
   return (
     <QueryClientProvider client={queryClient}>
       <ModalProvider>
-        <>
           <ConfirmationModal />
+          {/*TODO: Check if I need a grid component? Feels like I just need a stack*/}
           <Grid>
             <GridItem columnSpan={12}>
               <Card>
@@ -27,7 +28,7 @@ export default function Nr1BrowserAgentVersionPinningNerdlet() {
                     use the NerdGraph API directly.
                   </BlockText>
                   <BlockText spacingType={[BlockText.SPACING_TYPE.MEDIUM, BlockText.SPACING_TYPE.NONE]}>
-                    For more information, see the {/*TODO: Consts file for links*/}
+                    For more information, see the {/*TODO: move this to urls.js -- check for any other occurences for "http" */}
                     <Link to="https://docs.newrelic.com/docs/apis/nerdgraph/examples/browser-monitoring-config-nerdgraph/#browser-agent-version-pinning">
                       Browser Agent Version Pinning documentation
                     </Link>
@@ -48,9 +49,10 @@ export default function Nr1BrowserAgentVersionPinningNerdlet() {
                   </HeadingText>
                 </CardHeader>
                 <CardBody>
+                  {/*TODO: should this be a container? Or something else? Basically I want to get this as short as possible */}
                   <Tabs defaultValue="supported">
                     <TabsItem value="supported" label="Supported versions">
-                      {/*TODO: What happens when I do not have permission to update pinning?*/}
+                      {/*TODO: Check what permissions are required to update pinning. See what it does if I do not have permission. */}
                       <BrowserAgentTable />
                     </TabsItem>
                     <TabsItem value="custom" label="Custom version">
@@ -61,7 +63,6 @@ export default function Nr1BrowserAgentVersionPinningNerdlet() {
               </Card>
             </GridItem>
           </Grid>
-        </>
       </ModalProvider>
     </QueryClientProvider>
   );

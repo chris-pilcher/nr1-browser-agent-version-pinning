@@ -2,8 +2,9 @@ import { useContext } from "react";
 import { NerdGraphMutation, NerdletStateContext } from "nr1";
 import { UPDATE_PINNED_VERSION } from "../graphql/mutations";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { PINNED_VERSION_QUERY_KEY } from "./queryKeys";
 
-export default function useUpdatePinnedVersion() {
+export default function usePinnedVersionMutation() {
   const { entityGuid } = useContext(NerdletStateContext);
   const queryClient = useQueryClient();
 
@@ -15,7 +16,10 @@ export default function useUpdatePinnedVersion() {
       });
     },
     onSuccess: (response) => {
-      queryClient.setQueryData(["pinnedVersion"], response.data.agentApplicationSettingsUpdate.browserSettings.browserMonitoring.pinnedVersion);
+      queryClient.setQueryData(
+        PINNED_VERSION_QUERY_KEY,
+        response.data.agentApplicationSettingsUpdate.browserSettings.browserMonitoring.pinnedVersion,
+      );
     },
   });
 }

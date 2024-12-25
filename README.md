@@ -1,5 +1,7 @@
 # nr1-browser-agent-version-pinning
 
+TODO: Update the description to make it similar to an example repo
+
 [![Tests](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/actions/workflows/test.yml/badge.svg?branch=initial-setup)](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/actions/workflows/test.yml)
 
 NR1 Browser Agent Version Pinning makes it easy to lock a specific browser agent version from the UI. Keep things stable and avoid surprises from automatic updates.
