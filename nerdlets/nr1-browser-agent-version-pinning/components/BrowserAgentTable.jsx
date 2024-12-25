@@ -8,29 +8,9 @@ export default function BrowserAgentTable() {
   const pinnedVersionQuery = usePinnedVersionQuery();
   const { openModal } = useModal();
 
-  if (versionListQuery.isLoading)
-    return (
-      <EmptyState
-        title="Fetching the currently supported versions of the New Relic browser agent"
-        type={EmptyState.TYPE.LOADING}
-      />
-    );
-  // TODO: split this up?
-  if (versionListQuery.isError)
-    return (
-      <EmptyState
-        type={EmptyState.TYPE.ERROR}
-        iconType={EmptyState.ICON_TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__SERVICE__S_ERROR}
-        title="We couldn't fetch the currently supported versions of the New Relic browser agent"
-        description="Refresh the page to try again."
-        additionalInfoLink={{
-          label: "Currently supported versions of the New Relic browser agent",
-          to: EOL_DOCS_URL,
-        }}
-        action={{ label: "Refresh the page", onClick: refetch }}
-      />
-    );
-  // TODO: Move this to a function /  somewhere else (maybe below?)
+  if (versionListQuery.isLoading) return <BrowserAgentTableLoading />;
+  if (versionListQuery.isError) return <BrowserAgentTableError refetch={versionListQuery.refetch} />;
+
   const getActions = (itemVersion) => {
     return [
       {
@@ -74,6 +54,31 @@ export default function BrowserAgentTable() {
         )}
       </Table>
     </>
+  );
+}
+
+function BrowserAgentTableLoading() {
+  return (
+    <EmptyState
+      title="Fetching the currently supported versions of the New Relic browser agent"
+      type={EmptyState.TYPE.LOADING}
+    />
+  );
+}
+
+function BrowserAgentTableError({ refetch }) {
+  return (
+    <EmptyState
+      type={EmptyState.TYPE.ERROR}
+      iconType={EmptyState.ICON_TYPE.HARDWARE_AND_SOFTWARE__SOFTWARE__SERVICE__S_ERROR}
+      title="We couldn't fetch the currently supported versions of the New Relic browser agent"
+      description="Refresh the page to try again."
+      additionalInfoLink={{
+        label: "Currently supported versions of the New Relic browser agent",
+        to: EOL_DOCS_URL,
+      }}
+      action={{ label: "Refresh the page", onClick: refetch }}
+    />
   );
 }
 
