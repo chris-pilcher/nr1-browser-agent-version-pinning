@@ -1,10 +1,10 @@
 import React from "react";
 import { Button, Card, CardBody, CardHeader, CardSection, HeadingText, InlineMessage, Spinner } from "nr1";
-import { useModal, usePinnedVersionQuery } from "../hooks";
+import { useConfirmationModal, usePinnedVersionQuery } from "../hooks";
 
 export default function CurrentStatus() {
   const { data, isLoading, error } = usePinnedVersionQuery();
-  const { openModal } = useModal();
+  const confirmationModal = useConfirmationModal();
 
   return (
     <Card>
@@ -16,8 +16,7 @@ export default function CurrentStatus() {
           <StatusMessage loading={isLoading} error={error} version={data} />
         </CardSection>
         <CardSection>
-          {/*TODO: It's a modal ... but it's very specific to updating the version ... lets consider the name*/}
-          <Button disabled={!data} onClick={() => openModal(null)}>
+          <Button disabled={!data} onClick={confirmationModal.confirmRemovePin}>
             Remove Pinning
           </Button>
         </CardSection>

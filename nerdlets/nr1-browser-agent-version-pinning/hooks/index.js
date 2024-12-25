@@ -1,6 +1,6 @@
-import useModal from "./useModal";
+import useConfirmationModal from "./useConfirmationModal";
 import usePinnedVersionQuery from "./usePinnedVersionQuery";
 import usePinnedVersionMutation from "./usePinnedVersionMutation";
 import useVersionListQuery from "./useVersionListQuery";
 
-export { useModal, usePinnedVersionQuery, usePinnedVersionMutation, useVersionListQuery };
+export { useConfirmationModal, usePinnedVersionQuery, usePinnedVersionMutation, useVersionListQuery };

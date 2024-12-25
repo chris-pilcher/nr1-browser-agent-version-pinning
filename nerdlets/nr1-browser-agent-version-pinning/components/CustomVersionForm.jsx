@@ -1,13 +1,13 @@
 import React, { Fragment, useState } from "react";
 import { Form, TextField, Button, BlockText, Link } from "nr1";
-import { useModal, usePinnedVersionQuery } from "../hooks";
+import { useConfirmationModal, usePinnedVersionQuery } from "../hooks";
 import { GITHUB_BROWSER_AGENT_RELEASES_URL } from "../config";
 
 export default function CustomVersionForm() {
   const pinnedVersionQuery = usePinnedVersionQuery();
   const [version, setVersion] = useState(pinnedVersionQuery.data ?? "");
   const [invalid, setInvalid] = useState(false);
-  const { openModal } = useModal();
+  const confirmationModal = useConfirmationModal();
 
   // Regex for version (e.g. v1.234.5 or 1.2.3)
   const versionRegex = /^v?\d+\.\d+\.\d+$/;
@@ -22,7 +22,7 @@ export default function CustomVersionForm() {
     e.preventDefault();
     if (versionRegex.test(version)) {
       const versionWithoutPrefix = version.startsWith("v") ? version.slice(1) : version;
-      openModal(versionWithoutPrefix);
+      confirmationModal.confirmPin(versionWithoutPrefix);
     }
   };
 

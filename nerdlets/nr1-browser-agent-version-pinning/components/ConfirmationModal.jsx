@@ -11,21 +11,21 @@ export default function ConfirmationModal() {
   const updateType = parseUpdateType(pinnedVersionQuery.data, newVersion);
 
   const title = {
-    [UpdateType.REMOVE_PINNING]: "Remove Pinning",
     [UpdateType.ADD_PINNING]: "Add Pinning",
     [UpdateType.UPDATE_PINNING]: "Update Pinning",
+    [UpdateType.REMOVE_PINNING]: "Remove Pinning",
   };
 
   const actionText = {
-    [UpdateType.REMOVE_PINNING]: "Remove",
     [UpdateType.ADD_PINNING]: "Pin",
     [UpdateType.UPDATE_PINNING]: "Update",
+    [UpdateType.REMOVE_PINNING]: "Remove",
   };
 
   const description = {
-    [UpdateType.REMOVE_PINNING]: `Are you sure you want to remove the ${pinnedVersionQuery.data} version pinning?`,
     [UpdateType.ADD_PINNING]: `Are you sure you want to pin to version ${newVersion}?`,
     [UpdateType.UPDATE_PINNING]: `Are you sure you want to update the version pinning from ${pinnedVersionQuery.data} to ${newVersion}?`,
+    [UpdateType.REMOVE_PINNING]: `Are you sure you want to remove the ${pinnedVersionQuery.data} version pinning?`,
   };
 
   const handleUpdatePinnedVersion = () => {
@@ -64,9 +64,9 @@ export default function ConfirmationModal() {
 }
 
 const UpdateType = {
-  REMOVE_PINNING: "remove",
   ADD_PINNING: "pin",
   UPDATE_PINNING: "change",
+  REMOVE_PINNING: "remove",
 };
 
 function parseUpdateType(currentVersion, newVersion) {

@@ -1,13 +1,13 @@
 import React, { Fragment } from "react";
 import { Badge, BlockText, EmptyState, Link, Table, TableHeader, TableHeaderCell, TableRow, TableRowCell } from "nr1";
-import { useModal, usePinnedVersionQuery, useVersionListQuery } from "../hooks";
+import { useConfirmationModal, usePinnedVersionQuery, useVersionListQuery } from "../hooks";
 import { EOL_DOCS_URL } from "../config";
 import { formatToShortDate } from "../utils";
 
 export default function BrowserAgentTable() {
   const versionListQuery = useVersionListQuery();
   const pinnedVersionQuery = usePinnedVersionQuery();
-  const { openModal } = useModal();
+  const confirmationModal = useConfirmationModal();
 
   const isLoading = versionListQuery.isLoading || pinnedVersionQuery.isLoading;
   const isError = versionListQuery.isError || pinnedVersionQuery.isError;
@@ -36,16 +36,12 @@ export default function BrowserAgentTable() {
               {
                 label: "Pin Version",
                 disabled: item.version === pinnedVersionQuery.data,
-                onClick: (_, { item }) => {
-                  openModal(item.version);
-                },
+                onClick: (_, { item }) => confirmationModal.confirmPin(item.version),
               },
               {
                 label: "Remove Pinning",
                 disabled: item.version !== pinnedVersionQuery.data,
-                onClick: () => {
-                  openModal(null);
-                },
+                onClick: confirmationModal.confirmRemovePin,
               },
             ]}>
             <TableRowCell>
