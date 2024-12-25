@@ -65,26 +65,22 @@ export default function BrowserAgentTable() {
         {({ item }) => (
           <TableRow actions={getActions(item.version)}>
             <TableRowCell>
-              {item.version} {pinnedVersionQuery.data === item.version && <Badge type={Badge.TYPE.SUCCESS}>Pinned</Badge>}
+              {item.version}{" "}
+              {pinnedVersionQuery.data === item.version && <Badge type={Badge.TYPE.SUCCESS}>Pinned</Badge>}
             </TableRowCell>
-            <TableRowCell>
-              {/* TODO: Consider utils for the date functions */}
-              {new Date(item.startDate).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </TableRowCell>
-            <TableRowCell>
-              {new Date(item.endDate).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </TableRowCell>
+            <TableRowCell>{formatToShortDate(item.startDate)}</TableRowCell>
+            <TableRowCell>{formatToShortDate(item.endDate)}</TableRowCell>
           </TableRow>
         )}
       </Table>
     </>
   );
+}
+
+function formatToShortDate(date) {
+  return new Date(date).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
 }
