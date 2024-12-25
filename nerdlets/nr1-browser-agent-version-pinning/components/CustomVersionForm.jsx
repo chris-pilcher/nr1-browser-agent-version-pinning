@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { Form, TextField, Button, BlockText, Link } from "nr1";
 import { useModal, usePinnedVersionQuery } from "../hooks";
+import { GITHUB_BROWSER_AGENT_RELEASES_URL } from "../config";
 
 export default function CustomVersionForm() {
   const pinnedVersionQuery = usePinnedVersionQuery();
@@ -28,8 +29,7 @@ export default function CustomVersionForm() {
   return (
     <Fragment>
       <BlockText spacingType={[BlockText.SPACING_TYPE.MEDIUM]}>
-        Specify a version based on the release number from{" "}
-        <Link to="https://github.com/newrelic/newrelic-browser-agent/releases">GitHub</Link>
+        Specify a version based on the release number from <Link to={GITHUB_BROWSER_AGENT_RELEASES_URL}>GitHub</Link>
       </BlockText>
       <Form onSubmit={handleSubmit} spacingType={[Form.SPACING_TYPE.MEDIUM]}>
         <TextField
