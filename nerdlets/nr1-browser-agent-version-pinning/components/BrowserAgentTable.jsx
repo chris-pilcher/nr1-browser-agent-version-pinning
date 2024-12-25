@@ -1,37 +1,25 @@
-import React from "react";
-import { Badge, Table, TableHeader, TableHeaderCell, TableRow, TableRowCell, BlockText, Link, EmptyState } from "nr1";
-import { usePinnedVersionQuery, useModal, useVersionListQuery } from "../hooks";
+import React, { Fragment } from "react";
+import { Badge, BlockText, EmptyState, Link, Table, TableHeader, TableHeaderCell, TableRow, TableRowCell } from "nr1";
+import { useModal, usePinnedVersionQuery, useVersionListQuery } from "../hooks";
 import { EOL_DOCS_URL } from "../config";
+import { formatToShortDate } from "../utils";
 
 export default function BrowserAgentTable() {
   const versionListQuery = useVersionListQuery();
   const pinnedVersionQuery = usePinnedVersionQuery();
   const { openModal } = useModal();
 
-  if (versionListQuery.isLoading) return <BrowserAgentTableLoading />;
-  if (versionListQuery.isError) return <BrowserAgentTableError refetch={versionListQuery.refetch} />;
-
-  const getActions = (itemVersion) => {
-    return [
-      {
-        label: "Pin Version",
-        disabled: itemVersion === pinnedVersionQuery.data,
-        onClick: (_, { item }) => {
-          openModal(item.version);
-        },
-      },
-      {
-        label: "Remove Pinning",
-        disabled: itemVersion !== pinnedVersionQuery.data,
-        onClick: () => {
-          openModal(null);
-        },
-      },
-    ];
+  const isLoading = versionListQuery.isLoading || pinnedVersionQuery.isLoading;
+  const isError = versionListQuery.isError || pinnedVersionQuery.isError;
+  const refetch = () => {
+    return Promise.all([versionListQuery.refetch(), pinnedVersionQuery.refetch()]);
   };
-  // TODO: Review all the text in all the components and see if we can make it more clear. Shorter, more concise, etc.
+
+  if (isLoading) return <BrowserAgentTableLoading />;
+  if (isError) return <BrowserAgentTableError refetch={refetch} />;
+
   return (
-    <>
+    <Fragment>
       <BlockText spacingType={[BlockText.SPACING_TYPE.MEDIUM]}>
         The versions in the table below are the{" "}
         <Link to={EOL_DOCS_URL}>currently supported versions of the New Relic browser agent</Link>
@@ -43,7 +31,23 @@ export default function BrowserAgentTable() {
           <TableHeaderCell value={({ item }) => item.endDate}>Support End Date</TableHeaderCell>
         </TableHeader>
         {({ item }) => (
-          <TableRow actions={getActions(item.version)}>
+          <TableRow
+            actions={[
+              {
+                label: "Pin Version",
+                disabled: item.version === pinnedVersionQuery.data,
+                onClick: (_, { item }) => {
+                  openModal(item.version);
+                },
+              },
+              {
+                label: "Remove Pinning",
+                disabled: item.version !== pinnedVersionQuery.data,
+                onClick: () => {
+                  openModal(null);
+                },
+              },
+            ]}>
             <TableRowCell>
               {item.version}{" "}
               {pinnedVersionQuery.data === item.version && <Badge type={Badge.TYPE.SUCCESS}>Pinned</Badge>}
@@ -53,7 +57,7 @@ export default function BrowserAgentTable() {
           </TableRow>
         )}
       </Table>
-    </>
+    </Fragment>
   );
 }
 
@@ -80,12 +84,4 @@ function BrowserAgentTableError({ refetch }) {
       action={{ label: "Refresh the page", onClick: refetch }}
     />
   );
-}
-
-function formatToShortDate(date) {
-  return new Date(date).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
 }
