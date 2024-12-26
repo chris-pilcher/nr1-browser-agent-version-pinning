@@ -7,8 +7,7 @@ import { PINNING_DOCS_URL } from "./config";
 
 const queryClient = new QueryClient();
 
-// TODO: Check the name of the nerdlets from an example repo. Should this be NR1? Probably not
-export default function Nr1BrowserAgentVersionPinningNerdlet() {
+export default function BrowserAgentVersionPinningNerdlet() {
   return (
     <QueryClientProvider client={queryClient}>
       <ModalProvider>
