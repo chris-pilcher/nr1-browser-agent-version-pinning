@@ -1,9 +1,8 @@
 import React from "react";
-import { BlockText, Card, CardBody, CardHeader, Grid, GridItem, HeadingText, Link, Tabs, TabsItem } from "nr1";
+import { Card, CardBody, CardHeader, Grid, GridItem, HeadingText, Tabs, TabsItem } from "nr1";
 import { BrowserAgentTable, ConfirmationModal, PinningStatus, CustomVersionForm } from "./components";
 import { ModalProvider } from "./context";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { PINNING_DOCS_URL } from "./config";
 
 const queryClient = new QueryClient();
 
@@ -16,7 +15,6 @@ export default function BrowserAgentVersionPinningNerdlet() {
         <Grid>
           <GridItem columnSpan={12}>
             <PinningStatus />
-
           </GridItem>
           <GridItem columnSpan={12}>
             <Card>
