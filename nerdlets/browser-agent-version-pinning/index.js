@@ -1,6 +1,6 @@
 import React from "react";
 import { BlockText, Card, CardBody, CardHeader, Grid, GridItem, HeadingText, Link, Tabs, TabsItem } from "nr1";
-import { BrowserAgentTable, ConfirmationModal, CurrentStatus, CustomVersionForm } from "./components";
+import { BrowserAgentTable, ConfirmationModal, PinningStatus, CustomVersionForm } from "./components";
 import { ModalProvider } from "./context";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PINNING_DOCS_URL } from "./config";
@@ -15,27 +15,8 @@ export default function BrowserAgentVersionPinningNerdlet() {
         {/*TODO: Check if I need a grid component? Feels like I just need a stack*/}
         <Grid>
           <GridItem columnSpan={12}>
-            <Card>
-              <CardHeader>
-                <HeadingText type={HeadingText.TYPE.HEADING_4}>Version pinning</HeadingText>
-              </CardHeader>
-              <CardBody>
-                <BlockText spacingType={[BlockText.SPACING_TYPE.MEDIUM, BlockText.SPACING_TYPE.NONE]}>
-                  Pin a specific version of the New Relic Browser agent to ensure platform consistency.
-                </BlockText>
-                <BlockText spacingType={[BlockText.SPACING_TYPE.MEDIUM, BlockText.SPACING_TYPE.NONE]}>
-                  This extension for New Relic One simplifies browser agent version pinning, eliminating the need to use
-                  the NerdGraph API directly.
-                </BlockText>
-                <BlockText spacingType={[BlockText.SPACING_TYPE.MEDIUM, BlockText.SPACING_TYPE.NONE]}>
-                  For more information, see the{" "}
-                  <Link to={PINNING_DOCS_URL}>Browser Agent Version Pinning documentation</Link>
-                </BlockText>
-              </CardBody>
-            </Card>
-          </GridItem>
-          <GridItem columnSpan={12}>
-            <CurrentStatus />
+            <PinningStatus />
+
           </GridItem>
           <GridItem columnSpan={12}>
             <Card>

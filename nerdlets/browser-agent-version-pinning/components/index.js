@@ -1,6 +1,6 @@
 import BrowserAgentTable from "./BrowserAgentTable";
 import ConfirmationModal from "./ConfirmationModal";
-import CurrentStatus from "./CurrentStatus";
 import CustomVersionForm from "./CustomVersionForm";
+import PinningStatus from "./PinningStatus";
 
-export { BrowserAgentTable, ConfirmationModal, CurrentStatus, CustomVersionForm };
+export { BrowserAgentTable, ConfirmationModal, CustomVersionForm, PinningStatus };
