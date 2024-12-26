@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import * as cheerio from "cheerio";
-import { EOL_DOCS_URL } from "../../nerdlets/nr1-browser-agent-version-pinning/config";
+import { EOL_DOCS_URL } from "../../nerdlets/browser-agent-version-pinning/config";
 
 async function scrapeBrowserAgentData() {
   const response = await fetch(EOL_DOCS_URL);
