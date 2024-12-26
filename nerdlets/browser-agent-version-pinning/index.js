@@ -1,8 +1,8 @@
 import React from "react";
-import { Card, CardBody, CardHeader, Grid, GridItem, HeadingText, Tabs, TabsItem } from "nr1";
-import { BrowserAgentTable, ConfirmationModal, PinningStatus, CustomVersionForm } from "./components";
-import { ModalProvider } from "./context";
+import { Stack, StackItem } from "nr1";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ConfirmationModal, PinningStatus, ManagePinning } from "./components";
+import { ModalProvider } from "./context";
 
 const queryClient = new QueryClient();
 
@@ -11,35 +11,18 @@ export default function BrowserAgentVersionPinningNerdlet() {
     <QueryClientProvider client={queryClient}>
       <ModalProvider>
         <ConfirmationModal />
-        {/*TODO: Check if I need a grid component? Feels like I just need a stack*/}
-        <Grid>
-          <GridItem columnSpan={12}>
+        <Stack
+          directionType={Stack.DIRECTION_TYPE.VERTICAL}
+          horizontalType={Stack.HORIZONTAL_TYPE.FILL}
+          gapType={Stack.GAP_TYPE.NONE}
+          fullWidth>
+          <StackItem>
             <PinningStatus />
-          </GridItem>
-          <GridItem columnSpan={12}>
-            <Card>
-              <CardHeader>
-                <HeadingText
-                  type={HeadingText.TYPE.HEADING_4}
-                  spacingType={[HeadingText.SPACING_TYPE.MEDIUM, HeadingText.SPACING_TYPE.NONE]}>
-                  Manage pinning
-                </HeadingText>
-              </CardHeader>
-              <CardBody>
-                {/*TODO: should this be a container? Or something else? Basically I want to get this as short as possible */}
-                <Tabs defaultValue="supported">
-                  <TabsItem value="supported" label="Supported versions">
-                    {/*TODO: Check what permissions are required to update pinning. See what it does if I do not have permission. */}
-                    <BrowserAgentTable />
-                  </TabsItem>
-                  <TabsItem value="custom" label="Custom version">
-                    <CustomVersionForm />
-                  </TabsItem>
-                </Tabs>
-              </CardBody>
-            </Card>
-          </GridItem>
-        </Grid>
+          </StackItem>
+          <StackItem>
+            <ManagePinning />
+          </StackItem>
+        </Stack>
       </ModalProvider>
     </QueryClientProvider>
   );

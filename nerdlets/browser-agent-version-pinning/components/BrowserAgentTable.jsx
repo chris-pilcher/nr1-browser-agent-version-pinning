@@ -17,7 +17,7 @@ export default function BrowserAgentTable() {
 
   if (isLoading) return <BrowserAgentTableLoading />;
   if (isError) return <BrowserAgentTableError refetch={refetch} />;
-
+  // TODO: Make each row clickable instead of ellipses? Or maybe in addition to ellipses. Check how the rest of the UI usually works in NR1
   return (
     <Fragment>
       <BlockText spacingType={[BlockText.SPACING_TYPE.MEDIUM]}>
