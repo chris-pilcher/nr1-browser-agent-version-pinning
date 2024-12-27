@@ -1,7 +1,7 @@
 # Browser Agent Version Pinning (nr1-browser-agent-version-pinning)
 
 [![Tests](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/actions/workflows/test.yml/badge.svg?branch=initial-setup)](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/actions/workflows/test.yml) 
-![GitHub Release](https://img.shields.io/github/v/release/chris-pilcher/nr1-browser-agent-version-pinning)
+[![GitHub Release](https://img.shields.io/github/v/release/chris-pilcher/nr1-browser-agent-version-pinning)](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/releases)
 [![License](https://img.shields.io/github/license/chris-pilcher/nr1-browser-agent-version-pinning.svg)](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/blob/main/LICENSE)
 
 > Pin your browser agent version directly from the New Relic UI.
