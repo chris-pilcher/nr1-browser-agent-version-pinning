@@ -1,7 +1,5 @@
 # nr1-browser-agent-version-pinning
 
-TODO: Update the description to make it similar to an example repo
-
 [![Tests](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/actions/workflows/test.yml/badge.svg?branch=initial-setup)](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/actions/workflows/test.yml)
 
 NR1 Browser Agent Version Pinning makes it easy to lock a specific browser agent version from the UI. Keep things stable and avoid surprises from automatic updates.
@@ -35,19 +33,14 @@ nr1 create
 
 ## Publishing
 
-https://docs.newrelic.com/docs/new-relic-solutions/new-relic-one/build-nr-apps/publish/
+Publishing is done via GitHub Actions. The following steps are required:
 
-To add your app:
-- npm run publish
-- Go to https://one.newrelic.com/
-- Integrations & Agents
-- All
-- Search for [nr1-browser-agent-version-pinning](https://onenr.io/0PwJ3LVb7R7)
-- Add "Nr1BrowserAgentVersionPinning" to your account
-
-TODO: Fill in details for this page "Details" / "Whats new" / "What's New" (See Notes)
-
-## Dev Tasks
-
-- [ ] Check security for GitHub Actions. Based on [ThePrimeTime: Popular Python Package Becomes Crypto Miner](https://www.youtube.com/watch?v=MdbhLX67jDY) 
+- Create a new release in [GitHub](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/releases)
+  - **Tag**: Tag version should be in the format `v1.2.3`
+  - **Title**: Release title should be `X.Y.Z (Month Day, Year)`. E.g. `1.2.3 (June 1, 2021)`
+  - **Description**: Release description should be a summary of changes.
+- Publish the release will trigger the [publish workflow](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/actions/workflows/publish.yml) in GitHub Actions
+  - Publish will set the NPM version based on the GitHub release tag from the previous step
+  - Publish the Nerdpack to New Relic One
+- *Note: You must be a collaborator on the repository to publish*
 
