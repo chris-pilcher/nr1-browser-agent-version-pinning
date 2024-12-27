@@ -35,8 +35,8 @@ function StatusMessage() {
   const confirmationModal = useConfirmationModal();
   const pinnedVersionQuery = usePinnedVersionQuery();
 
-  if (pinnedVersionQuery.loading) return <Spinner inline />;
-  if (pinnedVersionQuery.error) {
+  if (pinnedVersionQuery.isLoading) return <Spinner inline />;
+  if (pinnedVersionQuery.isError) {
     return (
       <SectionMessage
         type={SectionMessage.TYPE.CRITICAL}
@@ -46,7 +46,6 @@ function StatusMessage() {
     );
   }
   const version = pinnedVersionQuery.data;
-  // TODO: When the internet is slow, this will show info before immediately showing the current version. This is a bit jarring - fix it
   return (
     <SectionMessage
       type={version ? SectionMessage.TYPE.SUCCESS : SectionMessage.TYPE.INFORMATION}
