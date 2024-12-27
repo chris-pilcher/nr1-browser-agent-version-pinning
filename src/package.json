@@ -31,6 +31,5 @@
     "printWidth": 120,
     "jsxSingleQuote": false,
     "bracketSameLine": true
-  },
-  "version": "1.2.4"
+  }
 }
