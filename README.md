@@ -1,4 +1,4 @@
-# Browser Agent Version Pinning
+# Browser Agent Version Pinning (nr1-browser-agent-version-pinning)
 
 [![Tests](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/actions/workflows/test.yml/badge.svg?branch=initial-setup)](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/actions/workflows/test.yml) 
 ![GitHub Release](https://img.shields.io/github/v/release/chris-pilcher/nr1-browser-agent-version-pinning)
@@ -16,12 +16,16 @@
 
 ![Browser Agent Version Pinning Demo](.github/images/browser-agent-version-pinning-demo.gif)
 
-
 ## Installation
 
-1. Ensure you have [New Relic One](https://one.newrelic.com) access
-2. Install the nerdpack from the New Relic One Catalog
-3. Navigate to your browser application to manage version pinning
+1. Log in to [New Relic One](https://one.newrelic.com)
+2. Click "Integrations & Agents" in the sidebar
+3. Click "apps & visualizations" link at the top of the page
+4. Search for "Browser Agent Version Pinning"
+5. Click "Browser Agent Version Pinning"
+6. Click "Add this app"
+7. Navigate to your browser application
+8. Click "Version pinning" in the sidebar
 
 ## Local Development
 
@@ -31,7 +35,7 @@
 - [npm](https://www.npmjs.com/)
 - [New Relic One CLI](https://developer.newrelic.com/build-tools/new-relic-one-applications/cli)
 
-Run the following scripts:
+### Commands
 
 ```shell
 cd src
@@ -39,7 +43,11 @@ npm install
 npm start
 ```
 
-Visit https://one.newrelic.com/?nerdpacks=local and :sparkles:
+### Viewing in New Relic
+
+- Visit https://one.newrelic.com/?nerdpacks=local
+- Navigate to your browser application
+- Click "Version pinning" in the sidebar
 
 ## Publishing
 
