@@ -1,5 +1,16 @@
 import React, { Fragment } from "react";
-import { Badge, BlockText, EmptyState, Link, Table, TableHeader, TableHeaderCell, TableRow, TableRowCell } from "nr1";
+import {
+  Badge,
+  BlockText,
+  EmptyState,
+  Link,
+  Table,
+  TableHeader,
+  TableHeaderCell,
+  TableRow,
+  TableRowCell,
+  Toast,
+} from "nr1";
 import { useConfirmationModal, usePinnedVersionQuery, useVersionListQuery } from "../hooks";
 import { EOL_DOCS_URL } from "../config";
 import { formatToShortDate } from "../utils";
@@ -17,14 +28,21 @@ export default function BrowserAgentTable() {
 
   if (isLoading) return <BrowserAgentTableLoading />;
   if (isError) return <BrowserAgentTableError refetch={refetch} />;
-  // TODO: Make each row clickable instead of ellipses? Or maybe in addition to ellipses. Check how the rest of the UI usually works in NR1
+
   return (
     <Fragment>
       <BlockText spacingType={[BlockText.SPACING_TYPE.MEDIUM]}>
         The versions in the table below are the{" "}
         <Link to={EOL_DOCS_URL}>currently supported versions of the New Relic browser agent</Link>
       </BlockText>
-      <Table items={versionListQuery.data}>
+      <Table
+        items={versionListQuery.data}
+        selectionType={Table.SELECTION_TYPE.SINGLE}
+        onSelect={(_, { item }) =>
+          item.version === pinnedVersionQuery.data
+            ? showAlreadyPinnedToast(item.version)
+            : confirmationModal.confirmPin(item.version)
+        }>
         <TableHeader>
           <TableHeaderCell value={({ item }) => item.version}>Version</TableHeaderCell>
           <TableHeaderCell value={({ item }) => item.startDate}>Support Start Date</TableHeaderCell>
@@ -32,14 +50,17 @@ export default function BrowserAgentTable() {
         </TableHeader>
         {({ item }) => (
           <TableRow
+            disabled={true}
             actions={[
               {
                 label: "Pin Version",
+                type: TableRow.ACTION_TYPE.NORMAL,
                 disabled: item.version === pinnedVersionQuery.data,
                 onClick: (_, { item }) => confirmationModal.confirmPin(item.version),
               },
               {
                 label: "Remove Pinning",
+                type: TableRow.ACTION_TYPE.DESTRUCTIVE,
                 disabled: item.version !== pinnedVersionQuery.data,
                 onClick: confirmationModal.confirmRemovePin,
               },
@@ -80,4 +101,12 @@ function BrowserAgentTableError({ refetch }) {
       action={{ label: "Refresh the page", onClick: refetch }}
     />
   );
+}
+
+function showAlreadyPinnedToast(version) {
+  Toast.showToast({
+    title: "Version Already Pinned",
+    description: `Version ${version} is pinned. Use the ellipsis (...) menu to unpin.`,
+    type: Toast.TYPE.NORMAL,
+  });
 }
