@@ -18,7 +18,7 @@
 
 ## Installation
 
-1. Log in to [New Relic One](https://one.newrelic.com)
+1. Log in to [New Relic](https://one.newrelic.com)
 2. Click "Integrations & Agents" in the sidebar
 3. Click "apps & visualizations" link at the top of the page
 4. Search for "Browser Agent Version Pinning"
@@ -32,8 +32,7 @@
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/en/)
-- [npm](https://www.npmjs.com/)
-- [New Relic One CLI](https://developer.newrelic.com/build-tools/new-relic-one-applications/cli)
+- [New Relic CLI](https://docs.newrelic.com/docs/new-relic-solutions/build-nr-ui/build-ab-app/install-cli/)
 
 ### Commands
 
