@@ -4,7 +4,6 @@ on:
   # Run at 6:00 AM (UTC) and on manual trigger
   schedule:
     - cron: "0 6 * * *"
-  pull_request: 
   workflow_dispatch:
 
 permissions:
