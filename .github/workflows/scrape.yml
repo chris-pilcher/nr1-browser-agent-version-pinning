@@ -9,15 +9,13 @@ on:
 permissions:
   contents: read
 
-
-defaults:
-  run:
-    working-directory: ./scripts/browser-agent-scrape
-
 jobs:
   scrape:
     name: Scrape Browser Agent EOL Data
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./scripts/browser-agent-scrape
 
     steps:
       - name: Checkout Code

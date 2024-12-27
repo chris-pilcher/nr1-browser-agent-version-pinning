@@ -12,6 +12,9 @@ jobs:
   publish:
     name: Publish Nerdpack
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
 
     steps:
       - name: Checkout Code
