@@ -1,26 +1,45 @@
-# Browser Agent Version Pinning (nr1-browser-agent-version-pinning)
+# Browser Agent Version Pinning
 
-[![Tests](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/actions/workflows/test.yml/badge.svg?branch=initial-setup)](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/actions/workflows/test.yml) ![GitHub Release](https://img.shields.io/github/v/release/chris-pilcher/nr1-browser-agent-version-pinning)
+[![Tests](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/actions/workflows/test.yml/badge.svg?branch=initial-setup)](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/actions/workflows/test.yml) 
+![GitHub Release](https://img.shields.io/github/v/release/chris-pilcher/nr1-browser-agent-version-pinning)
+[![License](https://img.shields.io/github/license/chris-pilcher/nr1-browser-agent-version-pinning.svg)](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/blob/main/LICENSE)
+
+> Pin your browser agent version directly from the New Relic UI.
+
+## Features
+
+- 📌 Pin browser agent versions with a single click
+- 🔓 Unpin the browser agent version
+- 👀 View current pinning status of your browser application
+
+## Demo
+
+![Browser Agent Version Pinning Demo](.github/images/browser-agent-version-pinning-demo.gif)
 
 
-NR1 Browser Agent Version Pinning makes it easy to lock a specific browser agent version from the UI. Keep things stable and avoid surprises from automatic updates.
+## Installation
 
-## Getting started
+1. Ensure you have [New Relic One](https://one.newrelic.com) access
+2. Install the nerdpack from the New Relic One Catalog
+3. Navigate to your browser application to manage version pinning
+
+## Local Development
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/en/)
+- [npm](https://www.npmjs.com/)
+- [New Relic One CLI](https://developer.newrelic.com/build-tools/new-relic-one-applications/cli)
 
 Run the following scripts:
 
-```
+```shell
 cd src
 npm install
 npm start
 ```
 
 Visit https://one.newrelic.com/?nerdpacks=local and :sparkles:
-
-## Developer Notes
-
-- This is a good example app: https://github.com/newrelic/nr1-browser-analyzer/blob/f1b6d61dbf77f93e50e445dec01c6e37c6423c09/nerdlets/browser-analyzer-nerdlet/nr1.json
-- New Relic UI controls https://docs.newrelic.com/docs/new-relic-solutions/build-nr-ui/sdk-component/controls/AccountPicker/
 
 ## Publishing
 
