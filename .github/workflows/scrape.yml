@@ -9,6 +9,11 @@ on:
 permissions:
   contents: read
 
+
+defaults:
+  run:
+    working-directory: ./scripts/browser-agent-scrape
+
 jobs:
   scrape:
     name: Scrape Browser Agent EOL Data
@@ -26,15 +31,15 @@ jobs:
           node-version: 22
 
       - name: Install Dependencies
-        run: npm install cheerio@1.0.0
+        run: npm ci
 
       - name: Scrape Browser Agent EOL Data
-        run: node gha-scripts/browser-agent/scrape.mjs
+        run: npm start
 
       - name: Push Scraped Data to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GH_TOKEN }}
-          publish_dir: ./gh-pages-content
+          publish_dir: ./scripts/browser-agent-scrape/output
           publish_branch: gh-pages
           commit_message: "Update browser-agent-eol-policy.json"

@@ -1,9 +1,9 @@
-import { promises as fs } from "fs";
 import * as cheerio from "cheerio";
-import { EOL_DOCS_URL } from "../../nerdlets/browser-agent-version-pinning/config";
+
+import { promises as fs } from "fs";
 
 async function scrapeBrowserAgentData() {
-  const response = await fetch(EOL_DOCS_URL);
+  const response = await fetch("https://docs.newrelic.com/docs/browser/browser-monitoring/getting-started/browser-agent-eol-policy/");
   if (!response.ok) {
     throw new Error(`Network response was not ok: ${response.statusText}`);
   }
@@ -27,7 +27,7 @@ async function scrapeBrowserAgentData() {
     throw new Error(`Invalid data detected. Data:\n${JSON.stringify(data, null, space)}`);
   }
 
-  const directory = "gh-pages-content";
+  const directory = "output";
   const fileName = `${directory}/browser-agent-eol-policy.json`;
   await fs.mkdir(directory);
   await fs.writeFile(fileName, JSON.stringify(data, null, 2), "utf8");
