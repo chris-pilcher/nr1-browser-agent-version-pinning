@@ -48,3 +48,6 @@ jobs:
 
       - name: Publish
         run: nr1 nerdpack:publish
+
+      - name: Submit To Catalog
+        run: nr1 catalog:submit
