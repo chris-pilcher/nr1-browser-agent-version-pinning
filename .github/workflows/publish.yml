@@ -26,11 +26,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set Version From Release Tag
-        run: npm version ${RELEASE_TAG_NAME} --no-git-tag-version
-        env:
-          RELEASE_TAG_NAME: ${{ github.event.release.tag_name }}
-
       - name: NR1 CLI - Install
         run: curl -s https://cli.nr-ext.net/installer.sh | sudo bash
 
@@ -40,8 +35,16 @@ jobs:
           NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
           NEW_RELIC_REGION: ${{ vars.NEW_RELIC_REGION }}
 
+      - name: Set Version From Release Tag
+        run: npm version ${RELEASE_TAG_NAME} --no-git-tag-version
+        env:
+          RELEASE_TAG_NAME: ${{ github.event.release.tag_name }}
+
       - name: NR1 CLI - Display Version
         run: nr1 --version
+
+      - name: Install Dependencies
+        run: npm ci
 
       - name: Publish
         run: nr1 nerdpack:publish
