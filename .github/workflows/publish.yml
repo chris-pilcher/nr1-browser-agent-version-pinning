@@ -1,5 +1,7 @@
 name: Publish
 
+concurrency: test
+
 on:
   release:
     types:
@@ -12,6 +14,8 @@ jobs:
   publish:
     name: Publish Nerdpack
     runs-on: ubuntu-latest
+    environment: test
+
     defaults:
       run:
         working-directory: ./src
