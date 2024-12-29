@@ -27,6 +27,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+          cache-dependency-path: ./scripts/browser-agent-scrape/package-lock.json
 
       - name: Install Dependencies
         run: npm ci
