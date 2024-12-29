@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { Form, TextField, Button, BlockText, Link } from "nr1";
 import { useConfirmationModal, usePinnedVersionQuery } from "../hooks";
-import { GITHUB_BROWSER_AGENT_RELEASES_URL } from "../config";
+import { URLS } from "../constants";
 
 export default function CustomVersionForm() {
   const pinnedVersionQuery = usePinnedVersionQuery();
@@ -29,7 +29,7 @@ export default function CustomVersionForm() {
   return (
     <Fragment>
       <BlockText spacingType={[BlockText.SPACING_TYPE.MEDIUM]}>
-        Specify a version based on the release number from <Link to={GITHUB_BROWSER_AGENT_RELEASES_URL}>GitHub</Link>
+        Specify a version based on the release number from <Link to={URLS.GITHUB.BROWSER_AGENT_RELEASES}>GitHub</Link>
       </BlockText>
       <Form onSubmit={handleSubmit} spacingType={[Form.SPACING_TYPE.MEDIUM]}>
         <TextField

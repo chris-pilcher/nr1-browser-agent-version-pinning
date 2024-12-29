@@ -12,7 +12,7 @@ import {
   Toast,
 } from "nr1";
 import { useConfirmationModal, usePinnedVersionQuery, useVersionListQuery } from "../hooks";
-import { EOL_DOCS_URL } from "../config";
+import { URLS } from "../constants";
 import { formatToShortDate } from "../utils";
 
 export default function BrowserAgentTable() {
@@ -33,7 +33,7 @@ export default function BrowserAgentTable() {
     <Fragment>
       <BlockText spacingType={[BlockText.SPACING_TYPE.MEDIUM]}>
         The versions in the table below are the{" "}
-        <Link to={EOL_DOCS_URL}>currently supported versions of the New Relic browser agent</Link>
+        <Link to={URLS.EOL.DOCS}>currently supported versions of the New Relic browser agent</Link>
       </BlockText>
       <Table
         items={versionListQuery.data}
@@ -96,7 +96,7 @@ function BrowserAgentTableError({ refetch }) {
       description="Refresh the page to try again."
       additionalInfoLink={{
         label: "Currently supported versions of the New Relic browser agent",
-        to: EOL_DOCS_URL,
+        to: URLS.EOL.DOCS,
       }}
       action={{ label: "Refresh the page", onClick: refetch }}
     />

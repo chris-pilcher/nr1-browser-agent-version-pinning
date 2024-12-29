@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardBody, CardHeader, HeadingText, SectionMessage, Spinner, Stack, StackItem } from "nr1";
 import { useConfirmationModal, usePinnedVersionQuery } from "../hooks";
-import { PINNING_DOCS_URL } from "../config";
+import { URLS } from "../constants";
 
 export default function PinningStatus() {
   return (
@@ -20,7 +20,7 @@ export default function PinningStatus() {
               actions={[
                 {
                   label: "Browser agent version pinning documentation",
-                  to: PINNING_DOCS_URL,
+                  to: URLS.DOCS.PINNING,
                 },
               ]}
             />
