@@ -2,5 +2,5 @@
   "schemaType": "NERDPACK",
   "id": "f56d4d88-7368-4b19-a5c6-3e465c017558",
   "displayName": "Browser Agent Version Pinning",
-  "description": "A New Relic app that enables users to pin a version of the browser agent directly from the UI. This ensures you can safely test future agent versions in non-production environments before applying them to production."
+  "description": "Pin a version of the browser agent directly from the UI."
 }
