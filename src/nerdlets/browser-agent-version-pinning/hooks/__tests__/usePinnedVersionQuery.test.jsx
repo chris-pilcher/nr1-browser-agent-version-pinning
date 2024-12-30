@@ -1,7 +1,7 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { ENTITY_GUID, NerdGraphQuery } from "../../__mocks__/nr1";
 import usePinnedVersionQuery from "../usePinnedVersionQuery";
-import { createQueryClientWrapper } from "./__utils__/queryClient";
+import { createQueryClient } from "./__utils__/queryClient";
 
 describe("usePinnedVersionQuery", () => {
   afterEach(() => {
@@ -10,6 +10,7 @@ describe("usePinnedVersionQuery", () => {
 
   it("fetches pinned version successfully", async () => {
     // Arrange
+    const { wrapper } = createQueryClient();
     const expectedVersion = "1.277.0";
     const mockResponse = {
       data: {
@@ -27,9 +28,7 @@ describe("usePinnedVersionQuery", () => {
     NerdGraphQuery.query.mockResolvedValueOnce(mockResponse);
 
     // Act
-    const { result } = renderHook(() => usePinnedVersionQuery(), {
-      wrapper: createQueryClientWrapper,
-    });
+    const { result } = renderHook(() => usePinnedVersionQuery(), { wrapper });
 
     // Assert
     expect(result.current.isLoading).toBe(true);
@@ -44,6 +43,7 @@ describe("usePinnedVersionQuery", () => {
 
   it("handles query error", async () => {
     // Arrange
+    const { wrapper } = createQueryClient();
     const mockResponse = {
       data: null,
       errors: ["Failed to fetch pinned version"],
@@ -52,7 +52,7 @@ describe("usePinnedVersionQuery", () => {
 
     // Act
     const { result } = renderHook(() => usePinnedVersionQuery(), {
-      wrapper: createQueryClientWrapper,
+      wrapper,
     });
 
     // Assert

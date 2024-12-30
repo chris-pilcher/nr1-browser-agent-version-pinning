@@ -1,7 +1,7 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { URLS } from "../../constants";
 import useVersionListQuery from "../useVersionListQuery";
-import { createQueryClientWrapper } from "./__utils__/queryClient";
+import { createQueryClient } from "./__utils__/queryClient";
 
 describe("useVersionListQuery", () => {
   beforeEach(() => {
@@ -14,6 +14,7 @@ describe("useVersionListQuery", () => {
 
   it("fetches and returns version list data", async () => {
     // Arrange
+    const { wrapper } = createQueryClient();
     const mockData = [
       {
         version: "1.277.0",
@@ -31,7 +32,7 @@ describe("useVersionListQuery", () => {
     });
 
     // Act
-    const { result } = renderHook(() => useVersionListQuery(), { wrapper: createQueryClientWrapper });
+    const { result } = renderHook(() => useVersionListQuery(), { wrapper });
 
     // Assert
     expect(result.current.isLoading).toBe(true);
@@ -42,11 +43,12 @@ describe("useVersionListQuery", () => {
 
   it("handles fetch error", async () => {
     // Arrange
+    const { wrapper } = createQueryClient();
     const error = new Error("Failed to fetch");
     global.fetch.mockRejectedValueOnce(error);
 
     // Act
-    const { result } = renderHook(() => useVersionListQuery(), { wrapper: createQueryClientWrapper });
+    const { result } = renderHook(() => useVersionListQuery(), { wrapper });
 
     // Assert
     await waitFor(() => expect(result.current.isError).toBe(true));

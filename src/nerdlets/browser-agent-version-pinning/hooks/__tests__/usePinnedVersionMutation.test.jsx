@@ -2,7 +2,7 @@ import { renderHook } from "@testing-library/react";
 import { ENTITY_GUID, NerdGraphMutation } from "../../__mocks__/nr1";
 import { PINNED_VERSION_QUERY_KEY } from "../queryKeys";
 import usePinnedVersionMutation from "../usePinnedVersionMutation";
-import { createQueryClientWrapper, queryClient } from "./__utils__/queryClient";
+import { createQueryClient } from "./__utils__/queryClient";
 
 describe("usePinnedVersionMutation", () => {
   afterEach(() => {
@@ -11,6 +11,7 @@ describe("usePinnedVersionMutation", () => {
 
   it("mutates pinned version successfully", async () => {
     // Arrange
+    const { queryClient, wrapper } = createQueryClient();
     const expectedPinnedVersion = "1.277.0";
     const mockResponse = {
       data: {
@@ -26,7 +27,7 @@ describe("usePinnedVersionMutation", () => {
     NerdGraphMutation.mutate.mockResolvedValueOnce(mockResponse);
 
     // Act
-    const { result } = renderHook(() => usePinnedVersionMutation(), { wrapper: createQueryClientWrapper });
+    const { result } = renderHook(() => usePinnedVersionMutation(), { wrapper });
     await result.current.mutateAsync(expectedPinnedVersion);
 
     // Assert
@@ -42,11 +43,12 @@ describe("usePinnedVersionMutation", () => {
 
   it("handles mutation error", async () => {
     // Arrange
+    const { wrapper } = createQueryClient();
     const error = new Error("Mutation failed");
     NerdGraphMutation.mutate.mockRejectedValueOnce(error);
 
     // Act
-    const { result } = renderHook(() => usePinnedVersionMutation(), { wrapper: createQueryClientWrapper });
+    const { result } = renderHook(() => usePinnedVersionMutation(), { wrapper });
 
     // Assert
     await expect(result.current.mutateAsync("1.277.0")).rejects.toThrow("Mutation failed");
