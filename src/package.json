@@ -38,7 +38,10 @@
     "testEnvironment": "jsdom",
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
-    }
+    },
+    "testPathIgnorePatterns": [
+      "__utils__"
+    ]
   },
   "browserslist": [
     "last 2 versions",
