@@ -39,7 +39,7 @@ jobs:
         run: npm ci
 
       - name: Run Tests
-        run: npm jest --coverage
+        run: jest --coverage
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v4
