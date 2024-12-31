@@ -3,7 +3,7 @@
   "name": "nr1-browser-agent-version-pinning",
   "scripts": {
     "start": "nr1 nerdpack:serve",
-    "test": "jest",
+    "test": "jest --coverage",
     "info": "nr1 nerdpack:info"
   },
   "devDependencies": {
@@ -41,7 +41,16 @@
     },
     "testPathIgnorePatterns": [
       "__utils__"
-    ]
+    ],
+    "collectCoverage": true,
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
   },
   "browserslist": [
     "last 2 versions",
