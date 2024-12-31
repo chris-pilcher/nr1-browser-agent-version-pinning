@@ -1,7 +1,7 @@
-import React from "react";
 import { Card, CardBody, CardHeader, HeadingText, SectionMessage, Spinner, Stack, StackItem } from "nr1";
-import { useConfirmationModal, usePinnedVersionQuery } from "../hooks";
+import React from "react";
 import { URLS } from "../constants";
+import { useConfirmationModal, usePinnedVersionQuery } from "../hooks";
 
 export default function PinningStatus() {
   return (
@@ -49,7 +49,7 @@ function StatusMessage() {
   return (
     <SectionMessage
       type={version ? SectionMessage.TYPE.SUCCESS : SectionMessage.TYPE.INFORMATION}
-      title={version ? version : "No version pinned"}
+      title={version || "No version pinned"}
       description={
         version
           ? `The currently pinned version is ${version}`
