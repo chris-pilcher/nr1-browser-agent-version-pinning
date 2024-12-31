@@ -1,4 +1,4 @@
-name: Scrape Browser Agent Data
+name: pages-scrape-browser-agent-eol
 
 on:
   # Run at 6:00 AM (UTC) and on manual trigger
