@@ -1,4 +1,3 @@
-import React, { Fragment } from "react";
 import {
   Badge,
   BlockText,
@@ -11,8 +10,10 @@ import {
   TableRowCell,
   Toast,
 } from "nr1";
-import { useConfirmationModal, usePinnedVersionQuery, useVersionListQuery } from "../hooks";
+import PropTypes from "prop-types";
+import React, { Fragment } from "react";
 import { URLS } from "../constants";
+import { useConfirmationModal, usePinnedVersionQuery, useVersionListQuery } from "../hooks";
 import { formatToShortDate } from "../utils";
 
 export default function BrowserAgentTable() {
@@ -102,6 +103,10 @@ function BrowserAgentTableError({ refetch }) {
     />
   );
 }
+
+BrowserAgentTableError.propTypes = {
+  refetch: PropTypes.func.isRequired,
+};
 
 function showAlreadyPinnedToast(version) {
   Toast.showToast({
