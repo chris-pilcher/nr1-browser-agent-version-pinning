@@ -1,7 +1,7 @@
-import React, { useContext, Fragment } from "react";
 import { BlockText, Button, HeadingText, Modal, SectionMessage, Spinner, Stack, StackItem, Toast } from "nr1";
-import { usePinnedVersionMutation, usePinnedVersionQuery } from "../hooks";
+import React, { Fragment, useContext } from "react";
 import { ModalContext } from "../context";
+import { usePinnedVersionMutation, usePinnedVersionQuery } from "../hooks";
 
 export default function ConfirmationModal() {
   const { hidden, newVersion, setHidden } = useContext(ModalContext);
@@ -51,7 +51,7 @@ export default function ConfirmationModal() {
           description="An error occurred while trying to fetch the current pinned version. Please try again later."
         />
       )}
-      {pinnedVersionQuery.isSuccess && (
+      {pinnedVersionQuery.isSuccess && version !== newVersion && (
         <Fragment>
           <HeadingText type={HeadingText.TYPE.HEADING_3}>{title[updateType]}</HeadingText>
           <BlockText spacingType={[BlockText.SPACING_TYPE.EXTRA_LARGE, BlockText.SPACING_TYPE.OMIT]}>
