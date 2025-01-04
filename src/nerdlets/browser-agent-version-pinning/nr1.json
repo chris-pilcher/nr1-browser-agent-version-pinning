@@ -1,0 +1,15 @@
+{
+  "schemaType": "NERDLET",
+  "id": "browser-agent-version-pinning",
+  "displayName": "Version pinning",
+  "description": "Configure the pinned version of the browser agent",
+  "context": {
+    "entities": [
+      {
+        "domain": "BROWSER",
+        "type": "APPLICATION"
+      }
+    ]
+  },
+  "icon": "INTERFACE__OPERATIONS__PIN"
+}

@@ -1,0 +1,59 @@
+{
+  "private": true,
+  "name": "nr1-browser-agent-version-pinning",
+  "scripts": {
+    "start": "nr1 nerdpack:serve",
+    "test": "jest --coverage",
+    "info": "nr1 nerdpack:info"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.26.3",
+    "@testing-library/react": "^16.1.0",
+    "jest": "30.0.0-alpha.6",
+    "jest-environment-jsdom": "30.0.0-alpha.6",
+    "prettier": "3.4.2"
+  },
+  "nr1": {
+    "uuid": "f56d4d88-7368-4b19-a5c6-3e465c017558"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^4.36.1",
+    "prop-types": "15.8.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      [
+        "@babel/preset-react",
+        {
+          "runtime": "automatic"
+        }
+      ]
+    ]
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "testPathIgnorePatterns": [
+      "__utils__"
+    ]
+  },
+  "browserslist": [
+    "last 2 versions",
+    "not ie < 11",
+    "not dead"
+  ],
+  "prettier": {
+    "singleQuote": false,
+    "tabWidth": 2,
+    "trailingComma": "all",
+    "printWidth": 120,
+    "jsxSingleQuote": false,
+    "bracketSameLine": true
+  }
+}

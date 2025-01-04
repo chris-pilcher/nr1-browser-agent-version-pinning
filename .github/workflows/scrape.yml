@@ -1,0 +1,45 @@
+name: pages-scrape-browser-agent-eol
+
+on:
+  # Run at 6:00 AM (UTC) and on manual trigger
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scrape:
+    name: Scrape Browser Agent EOL Data
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./scripts/browser-agent-scrape
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ./scripts/browser-agent-scrape/package-lock.json
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Scrape Browser Agent EOL Data
+        run: npm start
+
+      - name: Push Scraped Data to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          publish_dir: ./scripts/browser-agent-scrape/output
+          publish_branch: gh-pages
+          commit_message: "Update browser-agent-eol-policy.json"

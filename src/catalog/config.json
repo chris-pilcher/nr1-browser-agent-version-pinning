@@ -1,0 +1,13 @@
+{
+  "tagline": "Pin Browser Agent Versions",
+  "details": "Browser Agent Version Pinning lets you pin browser agents to specific versions. This ensures you can safely test future agent versions in non-production environments before applying them to production.",
+  "categoryTerms": ["browser agent"],
+  "keywords": ["browser", "pin", "pinning"],
+  "repository": "https://github.com/chris-pilcher/nr1-browser-agent-version-pinning",
+  "whatsNew": "- Initial release",
+  "support": {
+    "issues": {
+      "url": "https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/issues"
+    }
+  }
+}
