@@ -3,7 +3,7 @@
 [![Tests](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/actions/workflows/test.yml/badge.svg?branch=initial-setup)](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/actions/workflows/test.yml) 
 [![GitHub Release](https://img.shields.io/github/v/release/chris-pilcher/nr1-browser-agent-version-pinning)](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/releases)
 [![License](https://img.shields.io/github/license/chris-pilcher/nr1-browser-agent-version-pinning.svg)](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/blob/main/LICENSE)
-[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=chris-pilcher_nr1-browser-agent-version-pinning)](https://sonarcloud.io/summary/new_code?id=chris-pilcher_nr1-browser-agent-version-pinning)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=chris-pilcher_nr1-browser-agent-version-pinning&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=chris-pilcher_nr1-browser-agent-version-pinning)
 
 > Pin your browser agent version directly from the New Relic UI.
 
