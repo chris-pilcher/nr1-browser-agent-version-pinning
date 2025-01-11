@@ -12,7 +12,7 @@
     "@testing-library/react": "^16.1.0",
     "jest": "30.0.0-alpha.6",
     "jest-environment-jsdom": "30.0.0-alpha.6",
-    "prettier": "3.4.2"cd srn
+    "prettier": "3.4.2"
   },
   "nr1": {
     "uuid": "f56d4d88-7368-4b19-a5c6-3e465c017558"
