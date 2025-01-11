@@ -1,9 +1,9 @@
-# Browser Agent Version Pinning (nr1-browser-agent-version-pinning)
+# Browser Agent Version Pinning
 
-[![Tests](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/actions/workflows/test.yml/badge.svg?branch=initial-setup)](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/actions/workflows/test.yml) 
-[![GitHub Release](https://img.shields.io/github/v/release/chris-pilcher/nr1-browser-agent-version-pinning)](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/releases)
-[![License](https://img.shields.io/github/license/chris-pilcher/nr1-browser-agent-version-pinning.svg)](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/blob/main/LICENSE)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=chris-pilcher_nr1-browser-agent-version-pinning&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=chris-pilcher_nr1-browser-agent-version-pinning)
+[![Tests](https://github.com/chris-pilcher/browser-agent-version-pinning/actions/workflows/test.yml/badge.svg?branch=initial-setup)](https://github.com/chris-pilcher/browser-agent-version-pinning/actions/workflows/test.yml) 
+[![GitHub Release](https://img.shields.io/github/v/release/chris-pilcher/browser-agent-version-pinning)](https://github.com/chris-pilcher/browser-agent-version-pinning/releases)
+[![License](https://img.shields.io/github/license/chris-pilcher/browser-agent-version-pinning.svg)](https://github.com/chris-pilcher/browser-agent-version-pinning/blob/main/LICENSE)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=chris-pilcher_browser-agent-version-pinning&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=chris-pilcher_browser-agent-version-pinning)
 
 > Pin your browser agent version directly from the New Relic UI.
 
@@ -53,11 +53,11 @@ npm start
 
 Publishing is done via GitHub Actions. The following steps are required:
 
-- Create a new release in [GitHub](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/releases)
+- Create a new release in [GitHub](https://github.com/chris-pilcher/browser-agent-version-pinning/releases)
   - **Tag**: Tag version should be in the format `v1.2.3`
   - **Title**: Release title should be `X.Y.Z (Month Day, Year)`. E.g. `1.2.3 (June 1, 2021)`
   - **Description**: Release description should be a summary of changes.
-- Publish the release will trigger the [publish workflow](https://github.com/chris-pilcher/nr1-browser-agent-version-pinning/actions/workflows/publish.yml) in GitHub Actions
+- Publish the release will trigger the [publish workflow](https://github.com/chris-pilcher/browser-agent-version-pinning/actions/workflows/publish.yml) in GitHub Actions
   - Publish will set the NPM version based on the GitHub release tag from the previous step
   - Publish the Nerdpack to New Relic One
 - *Note: You must be a collaborator on the repository to publish*

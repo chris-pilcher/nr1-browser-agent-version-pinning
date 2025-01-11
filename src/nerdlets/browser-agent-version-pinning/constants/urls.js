@@ -1,6 +1,6 @@
 export const URLS = {
   EOL: {
-    DATA: "https://chris-pilcher.github.io/nr1-browser-agent-version-pinning/browser-agent-eol-policy.json",
+    DATA: "https://chris-pilcher.github.io/browser-agent-version-pinning/browser-agent-eol-policy.json",
     DOCS: "https://docs.newrelic.com/docs/browser/browser-monitoring/getting-started/browser-agent-eol-policy/",
   },
   GITHUB: {
