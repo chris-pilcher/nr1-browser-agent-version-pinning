@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "nr1-browser-agent-version-pinning",
+  "name": "browser-agent-version-pinning",
   "scripts": {
     "start": "nr1 nerdpack:serve",
     "test": "jest --coverage",
